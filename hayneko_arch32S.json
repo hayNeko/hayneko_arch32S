@@ -1,0 +1,539 @@
+{
+    "instructions": {
+
+    },
+    "encode": {
+        "ILP": {
+            "size": 2,
+            "description": "Instruction Length Prefix, specifies the length of the instruction in bytes."
+        },
+        "OPC": {
+            "size": 6,
+            "description": "Opcode field, specifies the operation to be performed by the processor."
+        },
+
+        "DRG": {
+            "size": 5,
+            "description": "Destination Register field, specifies the register where the result of the operation is stored."
+        },
+        "SR1": {
+            "size": 5,
+            "description": "Source Register 1 field, specifies the first source register for the operation."
+        },
+        "SR2": {
+            "size": 5,
+            "description": "Source Register 2 field, specifies the second source register for the operation."
+        },
+        "SR3": {
+            "size": 5,
+            "description": "Source Register 3 field, specifies the third source register for the operation."
+        },
+
+        "IM8": {
+            "size": 8,
+            "description": "Immediate field, specifies a constant value or address for the operation."
+        },
+        "I16": {
+            "size": 16,
+            "description": "Immediate field, specifies a constant value or address for the operation."
+        },
+        "I32": {
+            "size": 32,
+            "description": "Immediate field, specifies a constant value or address for the operation."
+        },
+
+        "OF8": {
+            "size": 8,
+            "description": "Offset field, specifies an offset value for memory access."
+        },
+        "O16": {
+            "size": 16,
+            "description": "Offset field, specifies an offset value for memory access."
+        },
+        "O32": {
+            "size": 32,
+            "description": "Offset field, specifies an offset value for memory access."
+        },
+
+        "AD8": {
+            "size": 8,
+            "description": "Address field, specifies an address for memory access."
+        },
+        "A16": {
+            "size": 16,
+            "description": "Address field, specifies an address for memory access."
+        },
+        "A32": {
+            "size": 32,
+            "description": "Address field, specifies an address for memory access."
+        },
+
+        "CR": {
+            "size": 4,
+            "description": "Condition Register field, specifies the condition for the operation to be executed."
+        }
+    },
+    "architecture": {
+        "name": "Hayneko_Arch32S",
+        "architecture": "RISC-like, Harvard architecture",
+        "copyright": "Copyright (c) 2025 Hayneko, all rights reserved.",
+        "opensource_license": {
+            "name": "MIT"
+        },
+        "bit_size": 32,
+        "endian": "little",
+        "is_support_fpu": true,
+        "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance and low power consumption.",
+        "hardware_info": {
+            "GPR": 32,
+            "FPR": 32,
+            "CR": 4,
+            "memory_size": 4294967296,
+            "instruction_length_type": "float",
+            "floating_point_format": "IEEE 754",
+            "floating_point_precision": "single precision (32-bit) and double precision (64-bit)"
+        },
+        "coprocessor": [
+            {
+                "name": "FPU",
+                "architecture": "hayneko_arch32F (inbuilt)",
+                "description": "Floating Point Unit for handling floating-point operations."
+            },
+            {
+                "name": "XTU",
+                "architecture": "hayneko_arch32X",
+                "description": "Extension Unit for handling additional and complex instructions."
+            },
+            {
+                "name": "BMU",
+                "architecture": "hayneko_arch32B (hayneko_arch64S native support)",
+                "description": "Big Math Unit for handling complex mathematical operations."
+            },
+            {
+                "name": "MMU",
+                "architecture": "hayneko_arch32M",
+                "description": "Memory Management Unit for handling memory management operations."
+            },
+            {
+                "name": "KCU",
+                "architecture": "hayneko_arch32K (inbuilt)",
+                "description": "Kernel Control Unit for handling kernel and system-level operations."
+            }
+        ],
+        "pipelining": {
+            "pipeline_stages": 7,
+            "operations": [
+                "Instruction Fetch (IF)",
+                "Instruction Get Length (IGL)",
+                "Instruction Decode (ID)",
+                "Address Calculation (AC)",
+                "Execute (EX)",
+                "Memory Access (MEM)",
+                "Write Back (WB)"
+            ],
+            "description": "The architecture employs a 7-stage pipeline to enhance instruction throughput and overall performance."
+        },
+        "out_of_order_execution": {
+            "supported": false,
+            "description": "Supports out-of-order execution to improve performance by allowing instructions to be processed as resources become available rather than strictly in the order they appear in the instruction stream. Hayneko_Arch32S does not support out-of-order execution yet."
+        },
+        "virtual_memory": {
+            "supported": true,
+            "page_size": 4096,
+            "address_translation": "two-level paging",
+            "description": "Supports virtual memory with a page size of 4KB and uses a two-level paging mechanism for address translation."
+        },
+        "modes": {
+            "user_mode": {
+                "level": 3,
+                "description": "Standard mode for executing user applications with restricted access to system resources."
+            },
+            "kernel_mode": {
+                "level": 1,
+                "description": "Privileged mode for executing operating system code with full access to system resources."
+            },
+            "hardware_mode": {
+                "level": 0,
+                "description": "Lowest level mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+            }
+        }
+
+    },
+    "registers": {
+        "interger": {
+            "all": "Free access in all modes (except ip, read-only in user mode)",
+            "x0": {
+                "number": 0,
+                "type": "GPR",
+                "description": "Zero register, always holds the value 0."
+            },
+            "ra": {
+                "number": 1,
+                "type": "GPR",
+                "description": "Return Address register, holds the return address for function calls."
+            },
+            "rb": {
+                "number": 2,
+                "type": "GPR",
+                "description": "Base register, used for base addressing."
+            },
+            "rc": {
+                "number": 3,
+                "type": "GPR",
+                "description": "Counter register, used for loop counting."
+            },
+            "rd": {
+                "number": 4,
+                "type": "GPR",
+                "description": "Data register, used for general data storage."
+            },
+            "ip": {
+                "number": 5,
+                "type": "GPR",
+                "description": "Instruction Pointer register, holds the address of the next instruction to be executed. (read-only in user mode)"
+            },
+            "bp": {
+                "number": 6,
+                "type": "GPR",
+                "description": "Base Pointer register, used for stack frame management."
+            },
+            "sp": {
+                "number": 7,
+                "type": "GPR",
+                "description": "Stack Pointer register, points to the top of the stack."
+            },
+    
+            "r8": {
+                "number": 8,
+                "type": "GPR",
+                "description": "General Purpose Register 8."
+            },
+            "r9": {
+                "number": 9,
+                "type": "GPR",
+                "description": "General Purpose Register 9."
+            },
+            "r10": {
+                "number": 10,
+                "type": "GPR",
+                "description": "General Purpose Register 10."
+            },
+            "r11": {
+                "number": 11,
+                "type": "GPR",
+                "description": "General Purpose Register 11."
+            },
+            "r12": {
+                "number": 12,
+                "type": "GPR",
+                "description": "General Purpose Register 12."
+            },
+            "r13": {
+                "number": 13,
+                "type": "GPR",
+                "description": "General Purpose Register 13."
+            },
+            "r14": {
+                "number": 14,
+                "type": "GPR",
+                "description": "General Purpose Register 14."
+            },
+            "r15": {
+                "number": 15,
+                "type": "GPR",
+                "description": "General Purpose Register 15."
+            },
+    
+            "r16": {
+                "number": 16,
+                "type": "GPR",
+                "description": "General Purpose Register 16."
+            },
+            "r17": {
+                "number": 17,
+                "type": "GPR",
+                "description": "General Purpose Register 17."
+            },
+            "r18": {
+                "number": 18,
+                "type": "GPR",
+                "description": "General Purpose Register 18."
+            },
+            "r19": {
+                "number": 19,
+                "type": "GPR",
+                "description": "General Purpose Register 19."
+            },
+            "r20": {
+                "number": 20,
+                "type": "GPR",
+                "description": "General Purpose Register 20."
+            },
+            "r21": {
+                "number": 21,
+                "type": "GPR",
+                "description": "General Purpose Register 21."
+            },
+            "r22": {
+                "number": 22,
+                "type": "GPR",
+                "description": "General Purpose Register 22."
+            },
+            "r23": {
+                "number": 23,
+                "type": "GPR",
+                "description": "General Purpose Register 23."
+            },
+    
+            "t0": {
+                "number": 24,
+                "type": "GPR",
+                "description": "Temporary Register 0."
+            },
+            "t1": {
+                "number": 25,
+                "type": "GPR",
+                "description": "Temporary Register 1."
+            },
+            "t2": {
+                "number": 26,
+                "type": "GPR",
+                "description": "Temporary Register 2."
+            },
+            "t3": {
+                "number": 27,
+                "type": "GPR",
+                "description": "Temporary Register 3."
+            },
+            "t4": {
+                "number": 28,
+                "type": "GPR",
+                "description": "Temporary Register 4."
+            },
+            "t5": {
+                "number": 29,
+                "type": "GPR",
+                "description": "Temporary Register 5."
+            },
+            "t6": {
+                "number": 30,
+                "type": "GPR",
+                "description": "Temporary Register 6."
+            },
+            "t7": {
+                "number": 31,
+                "type": "GPR",
+                "description": "Temporary Register 7."
+            }
+        },
+        "floating_point": {
+            "float": {
+                "all": "Free access in all modes",
+                "f0": {
+                    "number": 0,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 0."
+                },
+                "f1": {
+                    "number": 1,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 1."
+                },
+                "f2": {
+                    "number": 2,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 2."
+                },
+                "f3": {
+                    "number": 3,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 3."
+                },
+                "f4": {
+                    "number": 4,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 4."
+                },
+                "f5": {
+                    "number": 5,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 5."
+                },
+                "f6": {
+                    "number": 6,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 6."
+                },
+                "f7": {
+                    "number": 7,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 7."
+                },
+                "f8": {
+                    "number": 8,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 8."
+                },
+                "f9": {
+                    "number": 9,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 9."
+                },
+                "f10": {
+                    "number": 10,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 10."
+                },
+                "f11": {
+                    "number": 11,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 11."
+                },
+                "f12": {
+                    "number": 12,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 12."
+                },
+                "f13": {
+                    "number": 13,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 13."
+                },
+                "f14": {
+                    "number": 14,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 14."
+                },
+                "f15": {
+                    "number": 15,
+                    "type": "FPR",
+                    "description": "Single Precision Floating Point Register 15."
+                }
+            },
+            "double": {
+                "all": "Free access in all modes",
+                "d0": {
+                    "number": 16,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 0."
+                },
+                "d1": {
+                    "number": 17,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 1."
+                },
+                "d2": {
+                    "number": 18,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 2."
+                },
+                "d3": {
+                    "number": 19,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 3."
+                },
+                "d4": {
+                    "number": 20,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 4."
+                },
+                "d5": {
+                    "number": 21,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 5."
+                },
+                "d6": {
+                    "number": 22,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 6."
+                },
+                "d7": {
+                    "number": 23,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 7."
+                },
+                "d8": {
+                    "number": 24,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 8."
+                },
+                "d9": {
+                    "number": 25,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 9."
+                },
+                "d10": {
+                    "number": 26,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 10."
+                },
+                "d11": {
+                    "number": 27,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 11."
+                },
+                "d12": {
+                    "number": 28,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 12."
+                },
+                "d13": {
+                    "number": 29,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 13."
+                },
+                "d14": {
+                    "number": 30,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 14."
+                },
+                "d15": {
+                    "number": 31,
+                    "type": "FPR",
+                    "description": "Double Precision Floating Point Register 15."
+                }
+            }
+        },
+        "control": {
+            "all": "only accessible in kernel mode or hardware mode, user-mode denied",
+            "cr0": {
+                "number": 0,
+                "type": "CR",
+                "description": "Control Register 0 - Used for system control and configuration."
+            },
+            "cr1": {
+                "number": 1,
+                "type": "CR",
+                "description": "Control Register 1 - Used for memory management and protection."
+            },
+            "cr2": {
+                "number": 2,
+                "type": "CR",
+                "description": "Control Register 2 - Used for interrupt handling and status."
+            },
+            "cr3": {
+                "number": 3,
+                "type": "CR",
+                "description": "Control Register 3 - Used for system performance monitoring."
+            }
+        },
+        "kernel": {
+            "all": "only accessible in kernel mode or hardware mode, user-mode denied",
+            "mode": {
+                "number": 0,
+                "type": "KR",
+                "description": "Kernel Mode Register - Indicates the current operating mode."
+            },
+            "status": {
+                "number": 1,
+                "type": "KR",
+                "description": "Kernel Status Register - Holds status flags and information."
+            },
+            "ip": {
+                "number": 2,
+                "type": "KR",
+                "description": "Program Counter Register - Holds the address of the next instruction to be executed. Can be modified in kernel mode or hardware mode."
+            }
+        }
+    }
+}
