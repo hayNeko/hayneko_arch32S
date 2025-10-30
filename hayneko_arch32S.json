@@ -2,10 +2,101 @@
     "instructions": {
 
     },
+    "instruction_type": {
+        "compressed": {
+            "C.R": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "ST2",
+                        "0b0",
+                        "DRG"
+                    ],
+                    "ILP": 0,
+                    "ST2": 0
+                },
+                "description": "Compressed Register only instruction format, used for 1 register operation."
+            },
+            "C.S": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "ST2",
+                        "ST6"
+                    ],
+                    "ILP": 0,
+                    "ST2": 1
+                },
+                "description": "Compressed Setting or Control instruction format, used for processor control or setting operations."
+            },
+            "C.X": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "ST2",
+                        "ST6"
+                    ],
+                    "ILP": 0,
+                    "ST2": 2
+                },
+                "description": "Compressed Extension instruction format, used for extension operations."
+            },
+            "C.M": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "IM8"
+                    ],
+                    "ILP": 0
+                },
+                "description": "Compressed directly register Modify instruction format, used for 1 implicit register and 1 immediate value."
+            },
+            "C.F": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "OF8"
+                    ],
+                    "ILP": 0
+                },
+                "description": "Compressed Offset instruction format, used for offsetting operations."
+            },
+            "C.D": {
+                "length": 16,
+                "format": {
+                    "encoding": [
+                        "ILP",
+                        "OPC",
+                        "PRT"
+                    ],
+                    "ILP": 0
+                },
+                "description": "Compressed Data instruction format, used for data transfer(I/O) operations."
+            }
+        }
+    },
     "encode": {
         "ILP": {
             "size": 2,
             "description": "Instruction Length Prefix, specifies the length of the instruction in bytes."
+        },
+        "ST2": {
+            "size": 2,
+            "description": "Instruction Type or Setting field, specifies the type of the instruction."
+        },
+        "ST6": {
+            "size": 6,
+            "description": "Instruction Type or Setting field, specifies the type of the instruction."
         },
         "OPC": {
             "size": 6,
@@ -66,6 +157,11 @@
         "A32": {
             "size": 32,
             "description": "Address field, specifies an address for memory access."
+        },
+
+        "PRT": {
+            "length": 8,
+            "description": "Port field, specifies the I/O port to be accessed."
         },
 
         "CR": {
