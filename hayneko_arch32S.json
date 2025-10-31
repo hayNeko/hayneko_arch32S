@@ -1,122 +1,73 @@
 {
     "instructions": {
+        "basic": {
+            "control": {
+                "NOP": {
+                    "opcode": "0x00",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "No Operation - Does nothing for one instruction cycle."
+                }
+                
 
+            },
+            "data_transfer": {},
+            "arithmetic": {},
+            "logic": {},
+            "branch_or_jump": {},
+            "stack_operations": {},
+            "input_output": {},
+            "load_store": {},
+            "floating_point": {},
+            "double_precision": {},
+            "coprocessor": {}
+        },
+        "kernel": {
+            "system_calls": {},
+            "interrupts": {},
+            "memory_management": {}
+        }
     },
-    "instruction_type": {
-        "compressed": {
-            "C.R": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "ST2",
-                        "0b0",
-                        "DRG"
-                    ],
-                    "ILP": 0,
-                    "ST2": 0
-                },
-                "description": "Compressed Register only instruction format, used for 1 register operation."
-            },
-            "C.S": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "ST2",
-                        "ST6"
-                    ],
-                    "ILP": 0,
-                    "ST2": 1
-                },
-                "description": "Compressed Setting or Control instruction format, used for processor control or setting operations."
-            },
-            "C.X": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "ST2",
-                        "ST6"
-                    ],
-                    "ILP": 0,
-                    "ST2": 2
-                },
-                "description": "Compressed Extension instruction format, used for extension operations."
-            },
-            "C.M": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "IM8"
-                    ],
-                    "ILP": 0
-                },
-                "description": "Compressed directly register Modify instruction format, used for 1 implicit register and 1 immediate value."
-            },
-            "C.F": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "OF8"
-                    ],
-                    "ILP": 0
-                },
-                "description": "Compressed Offset instruction format, used for offsetting operations."
-            },
-            "C.D": {
-                "length": 16,
-                "format": {
-                    "encoding": [
-                        "ILP",
-                        "OPC",
-                        "PRT"
-                    ],
-                    "ILP": 0
-                },
-                "description": "Compressed Data instruction format, used for data transfer(I/O) operations."
-            }
+    "prefixes": {
+        "REX": {
+            "length": 1,
+            "format": [
+                "1", "1", "1", "0", "DRG", "SR1", "SR2", "SR3"
+            ],
+            "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 16-31 of the 32-bit general-purpose registers."
         }
     },
     "encode": {
-        "ILP": {
-            "size": 2,
-            "description": "Instruction Length Prefix, specifies the length of the instruction in bytes."
-        },
-        "ST2": {
-            "size": 2,
-            "description": "Instruction Type or Setting field, specifies the type of the instruction."
-        },
-        "ST6": {
-            "size": 6,
-            "description": "Instruction Type or Setting field, specifies the type of the instruction."
-        },
         "OPC": {
-            "size": 6,
+            "size": 8,
             "description": "Opcode field, specifies the operation to be performed by the processor."
+        },
+        "SOP": {
+            "size": 4,
+            "description": "Sub-Opcode field, specifies a variant of the main opcode operation."
         },
 
         "DRG": {
-            "size": 5,
+            "size": 4,
             "description": "Destination Register field, specifies the register where the result of the operation is stored."
         },
         "SR1": {
-            "size": 5,
+            "size": 4,
             "description": "Source Register 1 field, specifies the first source register for the operation."
         },
         "SR2": {
-            "size": 5,
+            "size": 4,
             "description": "Source Register 2 field, specifies the second source register for the operation."
         },
         "SR3": {
-            "size": 5,
+            "size": 4,
             "description": "Source Register 3 field, specifies the third source register for the operation."
         },
 
@@ -166,7 +117,7 @@
 
         "CR": {
             "size": 4,
-            "description": "Condition Register field, specifies the condition for the operation to be executed."
+            "description": "Control Register field, specifies the system control register to be accessed."
         }
     },
     "architecture": {
@@ -176,6 +127,7 @@
         "opensource_license": {
             "name": "MIT"
         },
+        "document": "HAYNEKO_ARCH32S_DOC.md",
         "bit_size": 32,
         "endian": "little",
         "is_support_fpu": true,
@@ -283,10 +235,10 @@
                 "type": "GPR",
                 "description": "Data register, used for general data storage."
             },
-            "ip": {
+            "ri": {
                 "number": 5,
                 "type": "GPR",
-                "description": "Instruction Pointer register, holds the address of the next instruction to be executed. (read-only in user mode)"
+                "description": "Index register, used for indexed addressing."
             },
             "bp": {
                 "number": 6,
