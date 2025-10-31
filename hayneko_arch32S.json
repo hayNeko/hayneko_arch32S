@@ -10,10 +10,25 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
+                    "mode": "ring-3",
                     "can_use_with_prefixes": [
                         false
                     ],
                     "description": "No Operation - Does nothing for one instruction cycle."
+                },
+                "HALT": {
+                    "opcode": "0x01",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "ring-0",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "Halt - Pauses the CPU until the next external interrupt is received."
                 }
                 
 
@@ -42,6 +57,13 @@
                 "1", "1", "1", "0", "DRG", "SR1", "SR2", "SR3"
             ],
             "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 16-31 of the 32-bit general-purpose registers."
+        },
+        "BRH_H": {
+            "length": 1,
+            "format": [
+                "1", "1", "0", "0", "0", "0", "BHT", "0"
+            ],
+            "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored."
         }
     },
     "encode": {
@@ -192,17 +214,17 @@
             "description": "Supports virtual memory with a page size of 4KB and uses a two-level paging mechanism for address translation."
         },
         "modes": {
-            "user_mode": {
+            "ring-3": {
                 "level": 3,
                 "description": "Standard mode for executing user applications with restricted access to system resources."
             },
-            "kernel_mode": {
-                "level": 1,
+            "ring-0": {
+                "level": 0,
                 "description": "Privileged mode for executing operating system code with full access to system resources."
             },
             "hardware_mode": {
-                "level": 0,
-                "description": "Lowest level mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+                "level": null,
+                "description": "(Not applicable in Hayneko_Arch32S.) Lowest level mode for direct hardware access and control, typically used for firmware and low-level system tasks."
             }
         }
 
