@@ -336,7 +336,73 @@
                         "REX"
                     ],
                     "description": "Decrement - Decreases the value of the source register by one and stores the result in the destination register."
+                },
+                "SMUL": {
+                    "opcode": "0x48",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SR1", "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Signed Multiply - Performs a signed multiplication of the values of two source registers and stores the result in the destination(low) and SR3(high) registers."
+                },
+                "UMUL": {
+                    "opcode": "0x49",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SR1", "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Unsigned Multiply - Performs an unsigned multiplication of the values of two source registers and stores the result in the destination(low) and SR3(high) registers."
+                },
+                "SDIV": {
+                    "opcode": "0x4A",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SR1", "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Signed Divide - Performs a signed division of the value in the source register SR1 by the value in source register SR2, storing the quotient in the destination register and the remainder in SR3."
+                },
+                "UDIV": {
+                    "opcode": "0x4B",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SR1", "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Unsigned Divide - Performs an unsigned division of the value in the source register SR1 by the value in source register SR2, storing the quotient in the destination register and the remainder in SR3."
                 }
+
+                
 
             },
             "logic": {
@@ -767,6 +833,248 @@
         "security": {
             "security_extensions": {},
             "security_services": {}
+        }
+    },
+    "pseudo_instructions": {
+        "SAL": {
+            "length": 2,
+            "expand_to": 2,
+            "format": [
+                "OPC", "DRG", "SOP", "SR1", "SR2"
+            ],
+            "modify_flags": [
+                "ZF", "CF", "OF", "NF"
+            ],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "SHL",
+                    "operands_map": {
+                        "DRG": "DRG",
+                        "SOP": "SOP",
+                        "SR1": "SR1",
+                        "SR2": "SR2"
+                    }
+                }
+            ],
+            "description": "Shift Arithmetic Left - Shifts the bits of the source register to the left by the number of positions specified in the second source register and stores the result in the destination register."
+
+        },
+        "PUSHA": {
+            "length": 1,
+            "expand_to": 65,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "ra"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "rb"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "rc"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "rd"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "ri"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "ri"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r8"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r9"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r10"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r11"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r12"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r13"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r14"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r15"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r16"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r17"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r18"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r19"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r20"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r21"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r22"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "r23"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t0"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t1"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t2"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t3"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t4"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t5"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t6"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "t7"
+                    }
+                },
+
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "sp"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "bp"
+                    }
+                },
+                {
+                    "instruction": "PUSHIP",
+                    "operands_map": {}
+                }
+
+            ]
+
         }
     },
     "prefixes": {
