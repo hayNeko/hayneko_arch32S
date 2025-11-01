@@ -301,10 +301,10 @@
             "mask": "0x00000004",
             "description": "Overflow Flag - Set if an arithmetic operation results in a signed overflow."
         },
-        "SF": {
+        "NF": {
             "bit_position": 3,
             "mask": "0x00000008",
-            "description": "Sign Flag - Set if the result of an operation is negative."
+            "description": "Negative Flag - Set if the result of an operation is negative."
         },
         
 
@@ -312,7 +312,47 @@
             "bit_position": 8,
             "mask": "0x00000100",
             "description": "Interrupt Flag - Controls the enabling and disabling of maskable interrupts."
+        },
+        "BE": {
+            "bit_position": 12,
+            "mask": "0x00001000",
+            "description": "Big Endian Flag - Set if the processor is using a big-endian byte order."
+        },
+
+        "BH": {
+            "bit_position": 15,
+            "mask": "0x00008000",
+            "description": "Branch Hint Flag - Indicates the likely direction of a branch instruction for optimization purposes. (1 = taken, 0 = not taken)"
+        },
+
+        "XTE": {
+            "bit_position": 16,
+            "mask": "0x00010000",
+            "description": "XTU Enable Flag - Indicates whether the Extension Unit (XTU) is enabled."
+        },
+        "BME": {
+            "bit_position": 17,
+            "mask": "0x00020000",
+            "description": "BMU Enable Flag - Indicates whether the Big Math Unit (BMU) is enabled."
+        },
+        "MME": {
+            "bit_position": 18,
+            "mask": "0x00040000",
+            "description": "MMU Enable Flag - Indicates whether the Memory Management Unit (MMU) is enabled."
+        },
+        "FPE": {
+            "bit_position": 19,
+            "mask": "0x00080000",
+            "description": "FPU Enable Flag - Indicates whether the Floating Point Unit (FPU) is enabled."
+        },
+
+        "VIE": {
+            "bit_position": 24,
+            "mask": "0x01000000",
+            "description": "Virtual mode Interrupt Enable Flag - Indicates whether virtual mode interrupts are enabled."
         }
+
+        
 
     },
     "architecture": {
@@ -326,7 +366,7 @@
         "bit_size": 32,
         "endian": "little",
         "is_support_fpu": true,
-        "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance and low power consumption.",
+        "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance.",
         "hardware_info": {
             "GPR": 32,
             "FPR": 32,
@@ -398,6 +438,10 @@
             "L3": {
                 "level": 3,
                 "description": "Hardware mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+            },
+            "L4": {
+                "level": 4,
+                "description": "Hypervisor mode for managing virtual machines and providing virtualization services."
             },
             "L7": {
                 "level": 7,
