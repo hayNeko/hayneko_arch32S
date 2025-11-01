@@ -10,26 +10,13 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "ring-3",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         false
                     ],
                     "description": "No Operation - Does nothing for one instruction cycle."
-                },
-                "HALT": {
-                    "opcode": "0x01",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "ring-0",
-                    "can_use_with_prefixes": [
-                        false
-                    ],
-                    "description": "Halt - Pauses the CPU until the next external interrupt is received."
                 }
+                
                 
 
             },
@@ -52,7 +39,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "ring-3",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         false
                     ],
@@ -66,7 +53,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "ring-3",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         false
                     ],
@@ -84,7 +71,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "ring-0",
+                    "mode": "L2",
                     "can_use_with_prefixes": [
                         false
                     ],
@@ -98,16 +85,35 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "ring-0",
+                    "mode": "L2",
                     "can_use_with_prefixes": [
                         false
                     ],
                     "description": "Interrupt Return - Returns from an interrupt handler to the point where the interrupt occurred."
+                },
+                "HALT": {
+                    "opcode": "0x3A",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L2",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "Halt - Pauses the CPU until the next external interrupt is received."
                 }
             },
             "memory_management": {},
             "I/O_operations": {},
             "context_switching": {}
+        },
+        "hardware": {
+            "hardware_control": {},
+            "device_management": {},
+            "power_management": {}
         },
         "extended": {
             "XTU_instructions": {},
@@ -352,17 +358,21 @@
             "description": "Supports virtual memory with a page size of 4KB and uses a two-level paging mechanism for address translation."
         },
         "modes": {
-            "ring-3": {
-                "level": 3,
+            "L0": {
+                "level": 0,
                 "description": "Standard mode for executing user applications with restricted access to system resources."
             },
-            "ring-0": {
-                "level": 0,
-                "description": "Privileged mode for executing operating system code with full access to system resources."
+            "L2": {
+                "level": 2,
+                "description": "Kernel mode for executing operating system code with full access to system resources."
             },
-            "hardware_mode": {
-                "level": null,
-                "description": "(Not applicable in Hayneko_Arch32S.) Lowest level mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+            "L3": {
+                "level": 3,
+                "description": "Hardware mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+            },
+            "L7": {
+                "level": 7,
+                "description": "Platform Secure mode for handling secure operations and sensitive data, providing an additional layer of security. It Has individual instruction set and system control."
             }
         }
 
@@ -742,7 +752,7 @@
                 "type": "KR",
                 "description": "Program Counter Register - Holds the address of the next instruction to be executed. Can be modified in kernel mode or hardware mode."
             },
-            "IDT": {
+            "idt": {
                 "number": 3,
                 "type": "KR",
                 "description": "Interrupt Descriptor Table Register - Points to the interrupt descriptor table used for handling interrupts."
