@@ -12,19 +12,122 @@
                     "needs_coprocessor": null,
                     "mode": "L0",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "No Operation - Does nothing for one instruction cycle."
+                },
+                "NOP2": {
+                    "opcode": "0x10",
+                    "length": 2,
+                    "format": [
+                        "OPC", "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
+                },
+                "NOP4": {
+                    "opcode": "0x11",
+                    "length": 4,
+                    "format": [
+                        "OPC", "DRG", "SR1", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
+                },
+                "NOP8": {
+                    "opcode": "0x12",
+                    "length": 8,
+                    "format": [
+                        "OPC", "DRG", "SR1", "SR2", "SR3", "OF8", "I32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "No Operation - Occupies 8 bytes, can be used for instruction alignment or timing adjustments."
                 }
                 
                 
 
             },
-            "data_transfer": {},
+            "data_transfer": {
+                "MOV": {
+                    "opcode": "0x01",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Move - Copy the value from the source register to the destination register."
+                }
+            },
             "arithmetic": {},
             "logic": {},
             "branch_or_jump": {},
-            "stack_operations": {},
+            "stack_operations": {
+                "PUSH": {
+                    "opcode": "0x08",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Push - Push the value from the specified register onto the stack, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
+                },
+                "POP": {
+                    "opcode": "0x09",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Pop - Pop the top value from the stack into the specified register, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
+                },
+                "PUSHIP": {
+                    "opcode": "0x0A",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L2",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Push Instruction Pointer - Push the current value of the instruction pointer onto the stack, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
+                }
+            },
             "input_output": {},
             "load_store": {},
             "floating_point": {},
@@ -41,7 +144,7 @@
                     "needs_coprocessor": null,
                     "mode": "L0",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "Interrupt System Call - Invokes an interrupt handler to request a service from the operating system."
                 },
@@ -55,7 +158,7 @@
                     "needs_coprocessor": null,
                     "mode": "L0",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "System Call - Invokes a system call and trigger interrupt 8 (#UI) to request a service from the operating system."
                 }
@@ -73,7 +176,7 @@
                     "needs_coprocessor": null,
                     "mode": "L2",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "Software Interrupt - Triggers a software interrupt to invoke an interrupt handler."
                 },
@@ -87,7 +190,7 @@
                     "needs_coprocessor": null,
                     "mode": "L2",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "Interrupt Return - Returns from an interrupt handler to the point where the interrupt occurred."
                 },
@@ -101,7 +204,7 @@
                     "needs_coprocessor": null,
                     "mode": "L2",
                     "can_use_with_prefixes": [
-                        false
+                        null
                     ],
                     "description": "Halt - Pauses the CPU until the next external interrupt is received."
                 }
@@ -234,9 +337,9 @@
             "vector": 4,
             "description": "General Protection Fault - Triggered when a protection violation occurs, such as accessing restricted memory or executing privileged instructions in user mode."
         },
-        "~DF": {
+        "*DF": {
             "vector": 5,
-            "description": "Debug Exception - Triggered by various debug conditions, such as breakpoints or single-step execution."
+            "description": "Double Fault - Triggered when a second exception occurs while trying to service a prior exception, often indicating a serious system error."
         },
         "#NC": {
             "vector": 6,
@@ -253,6 +356,10 @@
         "#TS": {
             "vector": 9,
             "description": "Timer Interrupt - Triggered by the system timer to manage time-related tasks."
+        },
+        "#AC": {
+            "vector": 10,
+            "description": "Alignment Check Error - Triggered when a memory access violates the alignment requirements of the processor."
         },
 
         "~MOUSE_INT": {
@@ -274,14 +381,13 @@
 
 
 
-
-        "*ABORT": {
+        "*MC": {
             "vector": 254,
-            "description": "Abort - A critical error that causes the processor to halt execution and enter a safe state, often used for severe hardware or software failures."
+            "description": "Machine Check - Triggered when the CPU detects a hardware error that cannot be corrected, such as memory errors or cache errors."
         },
-        "*FTABT": {
+        "*FTLAB": {
             "vector": 255,
-            "description": "Fatal Abort - A non-recoverable error that causes the processor stop all operations and fully shut down, it may be handled in L7 mode. If not handled, it will lead to system crash."
+            "description": "Fatal Abort - Triggered when another fatal error occurs while handling Double Fault or CPU had detected a hardware fault, this will immediately reset the CPU."
         }
 
     },
@@ -306,6 +412,11 @@
             "mask": "0x00000008",
             "description": "Negative Flag - Set if the result of an operation is negative."
         },
+        "DF": {
+            "bit_position": 4,
+            "mask": "0x00000010",
+            "description": "Direction Flag - Controls the direction of string operations (0 = increment, 1 = decrement)."
+        },
         
 
         "IF": {
@@ -313,10 +424,16 @@
             "mask": "0x00000100",
             "description": "Interrupt Flag - Controls the enabling and disabling of maskable interrupts."
         },
+
         "BE": {
             "bit_position": 12,
             "mask": "0x00001000",
             "description": "Big Endian Flag - Set if the processor is using a big-endian byte order."
+        },
+        "AC": {
+            "bit_position": 13,
+            "mask": "0x00002000",
+            "description": "Alignment Check Flag - Enables alignment checking for memory accesses."
         },
 
         "BH": {
@@ -351,8 +468,6 @@
             "mask": "0x01000000",
             "description": "Virtual mode Interrupt Enable Flag - Indicates whether virtual mode interrupts are enabled."
         }
-
-        
 
     },
     "architecture": {
@@ -829,6 +944,11 @@
                 "number": 3,
                 "type": "KR",
                 "description": "Interrupt Descriptor Table Register - Points to the interrupt descriptor table used for handling interrupts."
+            },
+            "pm": {
+                "number": 4,
+                "type": "KR",
+                "description": "Privilege Mode Register - Indicates the current privilege level of the processor."
             }
         }
     }
