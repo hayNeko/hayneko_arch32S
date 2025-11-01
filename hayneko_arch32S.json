@@ -57,6 +57,20 @@
                         null
                     ],
                     "description": "No Operation - Occupies 8 bytes, can be used for instruction alignment or timing adjustments."
+                },
+                "LEA": {
+                    "opcode": "0x42",
+                    "length": 4,
+                    "format": [
+                        "OPC", "DRG", "SCL", "SR1", "SR2", "OF8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
                 }
                 
                 
@@ -77,10 +91,260 @@
                         "REX"
                     ],
                     "description": "Move - Copy the value from the source register to the destination register."
+                },
+                "IMMB": {
+                    "opcode": "0x03",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Immediate Move Byte - Load an 8-bit immediate value into the destination register."
+                },
+                "IMMW": {
+                    "opcode": "0x43",
+                    "sub_opcode": "0x0",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SOP", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Immediate Move Word - Load a 16-bit immediate value into the destination register."
+                },
+                "IMMDW": {
+                    "opcode": "0x80",
+                    "sub_opcode": "0x0",
+                    "length": 5,
+                    "format": [
+                        "OPC", "DRG", "SOP", "I32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Immediate Move Double Word - Load a 32-bit immediate value into the destination register."
+                },
+                "FMOV": {
+                    "opcode": "0x01",
+                    "sub_opcode": "0x1",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DFR", "SOP", "FR1"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Floating Point Move - Copy the value from the source floating-point register to the destination floating-point register."
                 }
             },
-            "arithmetic": {},
-            "logic": {},
+            "arithmetic": {
+                "ADD": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Add - Adds the values of two source registers and stores the result in the destination register."
+                },
+                "SUB": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x1",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Subtract - Subtracts the value of the second source register from the first source register and stores the result in the destination register."
+                },
+                "SAR": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x4",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Shift Arithmetic Right - Shifts the bits of the source register to the right by the number of positions specified in the second source register, preserving the sign bit, and stores the result in the destination register."
+                },
+                "NEG": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x7",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Negate - Computes the two's complement (negation) of the source register and stores the result in the destination register."
+                },
+                "INC": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x9",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Increment - Increases the value of the source register by one and stores the result in the destination register."
+                },
+                "DEC": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0xA",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Decrement - Decreases the value of the source register by one and stores the result in the destination register."
+                }
+                
+            },
+            "logic": {
+                "SHL": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x2",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Shift Left - Shifts the bits of the source register to the left by the number of positions specified in the second source register and stores the result in the destination register."
+                },
+                "SHR": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x3",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Shift Right - Shifts the bits of the source register to the right by the number of positions specified in the second source register and stores the result in the destination register."
+                },
+                "XOR": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x5",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Exclusive OR - Performs a bitwise exclusive OR operation between two source registers and stores the result in the destination register."
+                },
+                "AND": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x6",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "AND - Performs a bitwise AND operation between two source registers and stores the result in the destination register."
+                },
+                "OR": {
+                    "opcode": "0x02",
+                    "sub_opcode": "0x8",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "OR - Performs a bitwise OR operation between two source registers and stores the result in the destination register."
+                }
+            },
             "branch_or_jump": {},
             "stack_operations": {
                 "PUSH": {
@@ -128,8 +392,67 @@
                     "description": "Push Instruction Pointer - Push the current value of the instruction pointer onto the stack, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
                 }
             },
-            "input_output": {},
-            "load_store": {},
+            "I/O": {
+                "IN": {
+                    "opcode": "0x30",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "0x0", "PRT"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L2",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Input from Port - Read bit-length (in Hayneko_arch32S, it is 32-bit) of data from the specified I/O port into the destination register."
+                },
+                "OUT": {
+                    "opcode": "0x31",
+                    "length": 2,
+                    "format": [
+                        "OPC", "SR1", "0x0", "PRT"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L2",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Output to Port - Write bit-length (in Hayneko_arch32S, it is 32-bit) of data from the source register to the specified I/O port."
+                }
+
+            },
+            "load_store": {
+                "LD": {
+                    "opcode": "0x40",
+                    "length": 3,
+                    "format": [
+                        "OPC", "DRG", "SR1", "OF8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Load - Load a value from memory into the destination register using the address calculated from the base register and offset."
+                },
+                "ST": {
+                    "opcode": "0x41",
+                    "length": 3,
+                    "format": [
+                        "OPC", "SR1", "DRG", "OF8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Store - Store a value from the source register into memory using the address calculated from the base register and offset."
+                }
+            },
             "floating_point": {},
             "double_precision": {},
             "coprocessor": {},
@@ -210,8 +533,8 @@
                 }
             },
             "memory_management": {},
-            "I/O_operations": {},
-            "context_switching": {}
+            "context_switching": {},
+            "I/O_management": {}
         },
         "hardware": {
             "hardware_control": {},
@@ -222,23 +545,50 @@
             "XTU_instructions": {},
             "BMU_instructions": {},
             "MMU_instructions": {}
+        },
+        "hypervisor": {
+            "virtualization": {},
+            "hypervisor_control": {}
+        },
+        "security": {
+            "security_extensions": {},
+            "security_services": {}
+        },
+        "virtual_machine": {
+            "virtual_machine_extensions": {},
+            "virtual_machine_services": {}
         }
     },
     "prefixes": {
-        "REX": {
-            "length": 1,
-            "format": [
-                "1", "1", "1", "0", "DRG", "SR1", "SR2", "SR3"
-            ],
-            "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 16-31 of the 32-bit general-purpose registers."
+        "types": {
+            "REX": {
+                "length": 1,
+                "format": [
+                    "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
+                ],
+                "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 16-31 of the 32-bit general-purpose registers."
+            },
+            "BRH_H": {
+                "length": 1,
+                "format": [
+                    "1", "1", "0", "0", "0", "0", "0", ["BHT"]
+                ],
+                "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored."
+            },
+            "IOR": {
+                "length": 1,
+                "format": [
+                    "1", "1", "1", "1", ["ISL", "ISL", "ISL", "ISL"]
+                ],
+                "description": "Instruction Length Override Prefix - explicitly specifies the length of the following instruction, overriding the default length determined by the opcode (can extend up to 16 bytes, not including prefixes)."
+            }
         },
-        "BRH_H": {
-            "length": 1,
-            "format": [
-                "1", "1", "0", "0", "0", "0", "0", "BHT"
-            ],
-            "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored."
-        }
+        "format": [
+            "IOR",
+            "BRH_H",
+            "REX",
+            "OPC"
+        ]
     },
     "encode": {
         "OPC": {
@@ -248,6 +598,10 @@
         "SOP": {
             "size": 4,
             "description": "Sub-Opcode field, specifies a variant of the main opcode operation."
+        },
+        "ISL": {
+            "size": 4,
+            "description": "Instruction Size Length field, specifies the length of the instruction in bytes."
         },
 
         "DRG": {
@@ -265,6 +619,23 @@
         "SR3": {
             "size": 4,
             "description": "Source Register 3 field, specifies the third source register for the operation."
+        },
+
+        "DFR": {
+            "size": 4,
+            "description": "Destination Floating-point Register field, specifies the floating-point register where the result of the operation is stored."
+        },
+        "SF1": {
+            "size": 4,
+            "description": "Source Floating-point Register 1 field, specifies the first source floating-point register for the operation."
+        },
+        "SF2": {
+            "size": 4,
+            "description": "Source Floating-point Register 2 field, specifies the second source floating-point register for the operation."
+        },
+        "SF3": {
+            "size": 4,
+            "description": "Source Floating-point Register 3 field, specifies the third source floating-point register for the operation."
         },
 
         "IM8": {
@@ -304,6 +675,11 @@
         "A32": {
             "size": 32,
             "description": "Address field, specifies an address for memory access."
+        },
+
+        "SCL": {
+            "length": 4,
+            "description": "Scale field, specifies the scaling factor for indexed addressing."
         },
 
         "PRT": {
