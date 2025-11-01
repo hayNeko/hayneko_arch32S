@@ -566,7 +566,14 @@
                 "format": [
                     "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
                 ],
-                "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 16-31 of the 32-bit general-purpose registers."
+                "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
+            },
+            "FEX": {
+                "length": 1,
+                "format": [
+                    "1", "1", "1", "0", ["DFR", "SF1", "SF2", "SF3"]
+                ],
+                "description": "Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
             },
             "BRH_H": {
                 "length": 1,
@@ -580,13 +587,13 @@
                 "format": [
                     "1", "1", "1", "1", ["ISL", "ISL", "ISL", "ISL"]
                 ],
-                "description": "Instruction Length Override Prefix - explicitly specifies the length of the following instruction, overriding the default length determined by the opcode (can extend up to 16 bytes, not including prefixes)."
+                "description": "Instruction Opcode Length Override Prefix - explicitly specifies the length of the following opcode, overriding the default length of 1 byte from 1 to 16 bytes."
             }
         },
         "format": [
             "IOR",
             "BRH_H",
-            "REX",
+            ["REX", "FEX"],
             "OPC"
         ]
     },
@@ -833,11 +840,6 @@
             "mask": "0x00040000",
             "description": "MMU Enable Flag - Indicates whether the Memory Management Unit (MMU) is enabled."
         },
-        "FPE": {
-            "bit_position": 19,
-            "mask": "0x00080000",
-            "description": "FPU Enable Flag - Indicates whether the Floating Point Unit (FPU) is enabled."
-        },
 
         "VIE": {
             "bit_position": 24,
@@ -869,11 +871,6 @@
         },
         "coprocessor": [
             {
-                "name": "FPU",
-                "architecture": "hayneko_arch32F (inbuilt)",
-                "description": "Floating Point Unit for handling floating-point operations."
-            },
-            {
                 "name": "XTU",
                 "architecture": "hayneko_arch32X",
                 "description": "Extension Unit for handling additional and complex instructions."
@@ -892,6 +889,11 @@
                 "name": "KCU",
                 "architecture": "hayneko_arch32K (inbuilt)",
                 "description": "Kernel Control Unit for handling kernel and system-level operations."
+            },
+            {
+                "name": "CIU",
+                "architecture": "hayneko_arch32C",
+                "description": "Complex Instrucion Extension Unit for handling complex instructions and operations."
             }
         ],
         "pipelining": {
@@ -943,7 +945,7 @@
     },
     "registers": {
         "interger": {
-            "all": "Free access in all modes (except ip, read-only in L0)",
+            "all": "Free access in all modes.",
             "x0": {
                 "number": 0,
                 "type": "GPR",
