@@ -22,3 +22,19 @@ The HAYNEKO ARCH32S is a 32-bit architecture designed for efficiency and perform
     - 1 byte length
     - no operand
     - instrucion decoder will decode the next instruction based on the prefix
+
+## Hayneko_Arch32S interrupt vectors
+
+there are total 256 interrupt vectors available in Hayneko_Arch32S. The interrupt vectors are located at the beginning of the memory space. The interrupt vectors are used to handle interrupts and exceptions.
+
+`*` means the interrupt vector needs a very high priority to be handled.\
+`#` means the interrupt vector is a non-maskable interrupt (NMI) vector.\
+`~` means the interrupt vector is a maskable interrupt (INT) vector.
+
+```txt
+~DE     : Divided Error, triggered when a division by zero or overflow occurs during integer division. (It can be masked.)
+
+#UD     : Undefined Instruction, triggered when an invalid or undefined opcode is encountered during instruction decoding. (It cannot be masked.)
+
+*ABORT  : Abort, A critical error that causes the processor to halt execution and enter a safe state, often used for severe hardware or software failures. (It may be handled in L7(Platform Secure mode, the highest priority level))
+```

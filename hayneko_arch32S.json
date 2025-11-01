@@ -214,7 +214,7 @@
         }
     },
     "interrupt_vectors": {
-        "#DE": {
+        "~DE": {
             "vector": 0,
             "description": "Divide Error - Triggered when a division by zero or overflow occurs during integer division."
         },
@@ -234,7 +234,7 @@
             "vector": 4,
             "description": "General Protection Fault - Triggered when a protection violation occurs, such as accessing restricted memory or executing privileged instructions in user mode."
         },
-        "#DF": {
+        "~DF": {
             "vector": 5,
             "description": "Debug Exception - Triggered by various debug conditions, such as breakpoints or single-step execution."
         },
@@ -263,11 +263,11 @@
             "vector": 33,
             "description": "Keyboard Interrupt - Triggered by keyboard input events."
         },
-        "~SERIAL_INT": {
+        "#SERIAL_INT": {
             "vector": 34,
             "description": "Serial Interrupt - Triggered by serial input events."
         },
-        "~DISK_INT": {
+        "#DISK_INT": {
             "vector": 35,
             "description": "Disk Interrupt - Triggered by disk input events."
         },
@@ -275,14 +275,13 @@
 
 
 
-
-        "#AB": {
+        "*ABORT": {
             "vector": 254,
             "description": "Abort - A critical error that causes the processor to halt execution and enter a safe state, often used for severe hardware or software failures."
         },
-        "#ZZ": {
+        "*FTABT": {
             "vector": 255,
-            "description": "Fatal Abort - A non-recoverable error that causes the processor stop all operations and fully shut down, typically requiring a system restart."
+            "description": "Fatal Abort - A non-recoverable error that causes the processor stop all operations and fully shut down, it may be handled in L7 mode. If not handled, it will lead to system crash."
         }
 
     },
@@ -379,7 +378,7 @@
     },
     "registers": {
         "interger": {
-            "all": "Free access in all modes (except ip, read-only in user mode)",
+            "all": "Free access in all modes (except ip, read-only in L0)",
             "x0": {
                 "number": 0,
                 "type": "GPR",
