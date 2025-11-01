@@ -72,8 +72,6 @@
                     ],
                     "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
                 }
-                
-                
 
             },
             "data_transfer": {
@@ -256,7 +254,7 @@
                     ],
                     "description": "Decrement - Decreases the value of the source register by one and stores the result in the destination register."
                 }
-                
+
             },
             "logic": {
                 "SHL": {
@@ -385,7 +383,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         null
                     ],
@@ -401,7 +399,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         "REX"
                     ],
@@ -415,7 +413,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         "REX"
                     ],
@@ -497,7 +495,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         null
                     ],
@@ -511,7 +509,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         null
                     ],
@@ -525,11 +523,53 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L2",
+                    "mode": "L3",
                     "can_use_with_prefixes": [
                         null
                     ],
                     "description": "Halt - Pauses the CPU until the next external interrupt is received."
+                },
+                "CLI": {
+                    "opcode": "0x38",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Clear Interrupt - Disables the execution of interrupts until the next instruction is executed."
+                },
+                "STI": {
+                    "opcode": "0x39",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Set Interrupt - Enables the execution of interrupts until the next instruction is executed."
+                },
+                "SYSRET": {
+                    "opcode": "0x3B",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "System Return - Returns from a system call to the point where the system call occurred."
                 }
             },
             "memory_management": {},
@@ -544,7 +584,8 @@
         "extended": {
             "XTU_instructions": {},
             "BMU_instructions": {},
-            "MMU_instructions": {}
+            "MMU_instructions": {},
+            "CIU_instructions": {}
         },
         "hypervisor": {
             "virtualization": {},
@@ -800,7 +841,7 @@
             "mask": "0x00000010",
             "description": "Direction Flag - Controls the direction of string operations (0 = increment, 1 = decrement)."
         },
-        
+
 
         "IF": {
             "bit_position": 8,
@@ -924,17 +965,29 @@
                 "level": 0,
                 "description": "User mode for executing user applications with restricted access to system resources."
             },
+            "L1": {
+                "level": 1,
+                "description": "Trusted mode for executing trusted applications, providing elevated privileges compared to user mode."
+            },
             "L2": {
                 "level": 2,
-                "description": "Kernel mode for executing operating system code with full access to system resources."
+                "description": "Restricted mode for vitualization and sandboxed environments, providing limited access to system resources."
             },
             "L3": {
                 "level": 3,
-                "description": "Hardware mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+                "description": "Kernel mode for host operating system execution and management, allowing privileged code execution and access to system resources."
             },
             "L4": {
                 "level": 4,
+                "description": "Hardware mode for direct hardware access and control, typically used for firmware and low-level system tasks."
+            },
+            "L5": {
+                "level": 5,
                 "description": "Hypervisor mode for managing virtual machines and providing virtualization services."
+            },
+            "L6": {
+                "level": 6,
+                "description": "Virtual Machine mode for executing guest operating systems within a virtualized environment."
             },
             "L7": {
                 "level": 7,
@@ -986,7 +1039,7 @@
                 "type": "GPR",
                 "description": "Stack Pointer register, points to the top of the stack."
             },
-    
+
             "r8": {
                 "number": 8,
                 "type": "GPR",
@@ -1027,7 +1080,7 @@
                 "type": "GPR",
                 "description": "General Purpose Register 15."
             },
-    
+
             "r16": {
                 "number": 16,
                 "type": "GPR",
@@ -1068,7 +1121,7 @@
                 "type": "GPR",
                 "description": "General Purpose Register 23."
             },
-    
+
             "t0": {
                 "number": 24,
                 "type": "GPR",
