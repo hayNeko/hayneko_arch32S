@@ -71,6 +71,89 @@
                         "REX"
                     ],
                     "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
+                },
+                "CALL": {
+                    "opcode": "0x82",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Call - Calls a subroutine at the specified absolute address (32-bit displacement) and saves the return address onto the stack."
+                },
+                "C": {
+                    "opcode": "0x44",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Call - Calls a subroutine at the specified immediate address (signed 16-bit displacement) and saves the return address onto the stack."
+                },
+                "RET": {
+                    "opcode": "0x04",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Return - Returns from a subroutine and restores the return address from the stack."
+                },
+                "CMP": {
+                    "opcode": "0x05",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Compare - Compares the values of two source registers and sets the appropriate flags based on the result."
+                },
+                "STD": {
+                    "opcode": "0x0B",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Set Direction Flag - Sets the direction flag (DF) to indicate that string operations should process data from high memory addresses to low memory addresses."
+                },
+                "CLD": {
+                    "opcode": "0x0C",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Clear Direction Flag - Clears the direction flag (DF) to indicate that string operations should process data from low memory addresses to high memory addresses."
                 }
 
             },
@@ -343,7 +426,36 @@
                     "description": "OR - Performs a bitwise OR operation between two source registers and stores the result in the destination register."
                 }
             },
-            "branch_or_jump": {},
+            "branch_and_jump": {
+                "J": {
+                    "opcode": "0x45",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Jump - Unconditionally relative jumps to the specified immediate address (signed 16-bit displacement)."
+                },
+                "JMP": {
+                    "opcode": "0x81",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Jump - Unconditionally relative jumps to the specified absolute address (32-bit displacement)."
+                }
+            },
             "stack_operations": {
                 "PUSH": {
                     "opcode": "0x08",
@@ -572,7 +684,64 @@
                     "description": "System Return - Returns from a system call to the point where the system call occurred."
                 }
             },
-            "memory_management": {},
+            "memory_management": {
+                "STBE": {
+                    "opcode": "0x06",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Set Big Endian - Configures the system to use big-endian byte order for multi-byte data types."
+                },
+                "CLBE": {
+                    "opcode": "0x07",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Clear Big Endian - Configures the system to use little-endian byte order for multi-byte data types."
+                },
+                "STAC": {
+                    "opcode": "0x0D",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Set Aligned Check - Enables alignment checking for memory accesses."
+                },
+                "CLAC": {
+                    "opcode": "0x0E",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Clear Aligned Check - Disables alignment checking for memory accesses."
+                }
+            },
             "context_switching": {},
             "I/O_management": {}
         },
@@ -591,13 +760,13 @@
             "virtualization": {},
             "hypervisor_control": {}
         },
-        "security": {
-            "security_extensions": {},
-            "security_services": {}
-        },
         "virtual_machine": {
             "virtual_machine_extensions": {},
             "virtual_machine_services": {}
+        },
+        "security": {
+            "security_extensions": {},
+            "security_services": {}
         }
     },
     "prefixes": {
@@ -726,12 +895,12 @@
         },
 
         "SCL": {
-            "length": 4,
+            "size": 4,
             "description": "Scale field, specifies the scaling factor for indexed addressing."
         },
 
         "PRT": {
-            "length": 8,
+            "size": 8,
             "description": "Port field, specifies the I/O port to be accessed."
         },
 
