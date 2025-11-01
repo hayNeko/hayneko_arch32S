@@ -16,7 +16,7 @@ The HAYNEKO ARCH32S is a 32-bit architecture designed for efficiency and perform
 - instruction starts with `10`:
     - 5 to 8 bytes instruction length
     - 1 to 7 bytes operand
-    - usually a long immediates or 4-7 register instructions
+    - usually a long immediates or 4-8 register instructions
 - instruction starts with `11`:
     - it is a **prefix** or **extended opcode** instruction
     - 1 byte length

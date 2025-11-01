@@ -42,11 +42,69 @@
             "load_store": {},
             "floating_point": {},
             "double_precision": {},
-            "coprocessor": {}
+            "coprocessor": {},
+            "system_calls": {
+                "ISYSCALL": {
+                    "opcode": "0x3D",
+                    "length": 2,
+                    "format": [
+                        "OPC", "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "ring-3",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "Interrupt System Call - Invokes an interrupt handler to request a service from the operating system."
+                },
+                "SYSCALL": {
+                    "opcode": "0x3C",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "ring-3",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "System Call - Invokes a system call and trigger interrupt 8 (#UI) to request a service from the operating system."
+                }
+            }
         },
         "kernel": {
-            "system_calls": {},
-            "interrupts": {},
+            "interrupts": {
+                "INT": {
+                    "opcode": "0x3E",
+                    "length": 2,
+                    "format": [
+                        "OPC", "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "ring-0",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "Software Interrupt - Triggers a software interrupt to invoke an interrupt handler."
+                },
+                "IRET": {
+                    "opcode": "0x3F",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "ring-0",
+                    "can_use_with_prefixes": [
+                        false
+                    ],
+                    "description": "Interrupt Return - Returns from an interrupt handler to the point where the interrupt occurred."
+                }
+            },
             "memory_management": {},
             "I/O_operations": {},
             "context_switching": {}
@@ -178,20 +236,32 @@
             "vector": 6,
             "description": "Non-Maskable Interrupt - A high-priority interrupt that cannot be ignored by the processor, typically used for critical hardware events."
         },
+        "#II": {
+            "vector": 7,
+            "description": "Invalid Interrupt - Triggered when an invalid interrupt vector is encountered during interrupt handling."
+        },
+        "#UI": {
+            "vector": 8,
+            "description": "User Interrupt - A software-generated interrupt used for user-level interrupt handling."
+        },
+        "#TS": {
+            "vector": 9,
+            "description": "Timer Interrupt - Triggered by the system timer to manage time-related tasks."
+        },
 
-        "MOUSE_INT": {
+        "~MOUSE_INT": {
             "vector": 32,
             "description": "Mouse Interrupt - Triggered by mouse input events."
         },
-        "KEYBOARD_INT": {
+        "~KEYBOARD_INT": {
             "vector": 33,
             "description": "Keyboard Interrupt - Triggered by keyboard input events."
         },
-        "SERIAL_INT": {
+        "~SERIAL_INT": {
             "vector": 34,
             "description": "Serial Interrupt - Triggered by serial input events."
         },
-        "DISK_INT": {
+        "~DISK_INT": {
             "vector": 35,
             "description": "Disk Interrupt - Triggered by disk input events."
         },
