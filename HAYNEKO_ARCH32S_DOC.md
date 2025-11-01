@@ -23,6 +23,21 @@ The HAYNEKO ARCH32S is a 32-bit architecture designed for efficiency and perform
     - no operand
     - instrucion decoder will decode the next instruction based on the prefix
 
+### Hayneko_Arch32S instruction prefixes
+
+- prefixes start with `11` and are used to extend/change the instruction behavior
+- one instruction can have multiple prefixes, following a fixed order
+- some of the prefixes conflict with each other, and the instruction decoder will ignore the conflict
+    - `REX` and `FEX` prefixes conflict with each other, only one of them can be used in an instruction
+
+- `IOR` prefix overrides the original instruction opcode length by giving length
+    - it can expand the instruction from 1-2 bytes to maximum 16 bytes
+    - it often used in very long immediate or complex instructions (such as vector or matrix instructions)
+
+- `BRH-H` prefix provides a branch hint to the instruction decoder
+    - it can improve the branch prediction performance
+    - it can only be used with conditional branch instructions, otherwise it will be ignored
+
 ## Hayneko_Arch32S interrupt vectors
 
 there are total 256 interrupt vectors available in Hayneko_Arch32S. The interrupt vectors are located at the beginning of the memory space. The interrupt vectors are used to handle interrupts and exceptions.

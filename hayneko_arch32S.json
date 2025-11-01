@@ -854,10 +854,10 @@
                 {
                     "instruction": "SHL",
                     "operands_map": {
-                        "DRG": "DRG",
-                        "SOP": "SOP",
-                        "SR1": "SR1",
-                        "SR2": "SR2"
+                        "DRG": "%DRG",
+                        "SOP": "%SOP",
+                        "SR1": "%SR1",
+                        "SR2": "%SR2"
                     }
                 }
             ],
@@ -1084,14 +1084,14 @@
                 "format": [
                     "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
                 ],
-                "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
+                "description": "(Conflicting with FEX prefix)Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
             },
             "FEX": {
                 "length": 1,
                 "format": [
                     "1", "1", "1", "0", ["DFR", "SF1", "SF2", "SF3"]
                 ],
-                "description": "Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
+                "description": "(Conflicting with REX prefix)Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
             },
             "BRH_H": {
                 "length": 1,
@@ -1106,6 +1106,13 @@
                     "1", "1", "1", "1", ["ISL", "ISL", "ISL", "ISL"]
                 ],
                 "description": "Instruction Opcode Length Override Prefix - explicitly specifies the length of the following opcode, overriding the default length of 1 byte from 1 to 16 bytes."
+            },
+            "LOCK": {
+                "length": 1,
+                "format": [
+                    "1", "1", "0", "0", "0", "0", "1", "0"
+                ],
+                "description": "Lock Prefix - ensures exclusive access to shared memory in multi-processor environments by preventing other processors from accessing the memory location being modified until the operation is complete."
             }
         },
         "format": [
