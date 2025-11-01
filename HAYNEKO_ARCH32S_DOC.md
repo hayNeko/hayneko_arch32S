@@ -31,7 +31,7 @@ there are total 256 interrupt vectors available in Hayneko_Arch32S. The interrup
 `#` means the interrupt vector is a non-maskable interrupt (NMI) vector.\
 `~` means the interrupt vector is a maskable interrupt (INT) vector.
 
-```txt
+```plain text
 ~DE     : Divided Error, triggered when a division by zero or overflow occurs during integer division. (It can be masked.)
 
 #UD     : Undefined Instruction, triggered when an invalid or undefined opcode is encountered during instruction decoding. (It cannot be masked.)

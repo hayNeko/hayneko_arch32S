@@ -285,6 +285,36 @@
         }
 
     },
+    "flags": {
+        "ZF": {
+            "bit_position": 0,
+            "mask": "0x00000001",
+            "description": "Zero Flag - Set if the result of an operation is zero."
+        },
+        "CF": {
+            "bit_position": 1,
+            "mask": "0x00000002",
+            "description": "Carry Flag - Set if an arithmetic operation generates a carry out or borrow into the most significant bit."
+        },
+        "OF": {
+            "bit_position": 2,
+            "mask": "0x00000004",
+            "description": "Overflow Flag - Set if an arithmetic operation results in a signed overflow."
+        },
+        "SF": {
+            "bit_position": 3,
+            "mask": "0x00000008",
+            "description": "Sign Flag - Set if the result of an operation is negative."
+        },
+        
+
+        "IF": {
+            "bit_position": 8,
+            "mask": "0x00000100",
+            "description": "Interrupt Flag - Controls the enabling and disabling of maskable interrupts."
+        }
+
+    },
     "architecture": {
         "name": "Hayneko_Arch32S",
         "architecture": "RISC-like, Harvard architecture",
@@ -319,7 +349,7 @@
             },
             {
                 "name": "BMU",
-                "architecture": "hayneko_arch32B (hayneko_arch64S native support)",
+                "architecture": "hayneko_arch32B",
                 "description": "Big Math Unit for handling complex mathematical operations."
             },
             {
@@ -359,7 +389,7 @@
         "modes": {
             "L0": {
                 "level": 0,
-                "description": "Standard mode for executing user applications with restricted access to system resources."
+                "description": "User mode for executing user applications with restricted access to system resources."
             },
             "L2": {
                 "level": 2,

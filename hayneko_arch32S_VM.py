@@ -1,5 +1,7 @@
 """
 in readme file
+
+This VM will be refactored using C++ in the future (for performance consideration), so this python version is only for prototyping and testing purpose.
 """
 
 
