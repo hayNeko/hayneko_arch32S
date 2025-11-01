@@ -47,7 +47,14 @@
         "kernel": {
             "system_calls": {},
             "interrupts": {},
-            "memory_management": {}
+            "memory_management": {},
+            "I/O_operations": {},
+            "context_switching": {}
+        },
+        "extended": {
+            "XTU_instructions": {},
+            "BMU_instructions": {},
+            "MMU_instructions": {}
         }
     },
     "prefixes": {
@@ -61,7 +68,7 @@
         "BRH_H": {
             "length": 1,
             "format": [
-                "1", "1", "0", "0", "0", "0", "BHT", "0"
+                "1", "1", "0", "0", "0", "0", "0", "BHT"
             ],
             "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored."
         }
@@ -141,6 +148,67 @@
             "size": 4,
             "description": "Control Register field, specifies the system control register to be accessed."
         }
+    },
+    "interrupt_vectors": {
+        "#DE": {
+            "vector": 0,
+            "description": "Divide Error - Triggered when a division by zero or overflow occurs during integer division."
+        },
+        "#UD": {
+            "vector": 1,
+            "description": "Invalid Opcode Error - Triggered when an invalid or undefined opcode is encountered during instruction decoding."
+        },
+        "#PF": {
+            "vector": 2,
+            "description": "Page Fault - Triggered when a memory access violation occurs, such as accessing a non-present page or violating access permissions."
+        },
+        "#SO": {
+            "vector": 3,
+            "description": "Stack Overflow - Triggered when a stack overflow condition is detected, such as exceeding the stack size limit."
+        },
+        "#GP": {
+            "vector": 4,
+            "description": "General Protection Fault - Triggered when a protection violation occurs, such as accessing restricted memory or executing privileged instructions in user mode."
+        },
+        "#DF": {
+            "vector": 5,
+            "description": "Debug Exception - Triggered by various debug conditions, such as breakpoints or single-step execution."
+        },
+        "#NC": {
+            "vector": 6,
+            "description": "Non-Maskable Interrupt - A high-priority interrupt that cannot be ignored by the processor, typically used for critical hardware events."
+        },
+
+        "MOUSE_INT": {
+            "vector": 32,
+            "description": "Mouse Interrupt - Triggered by mouse input events."
+        },
+        "KEYBOARD_INT": {
+            "vector": 33,
+            "description": "Keyboard Interrupt - Triggered by keyboard input events."
+        },
+        "SERIAL_INT": {
+            "vector": 34,
+            "description": "Serial Interrupt - Triggered by serial input events."
+        },
+        "DISK_INT": {
+            "vector": 35,
+            "description": "Disk Interrupt - Triggered by disk input events."
+        },
+
+
+
+
+
+        "#AB": {
+            "vector": 254,
+            "description": "Abort - A critical error that causes the processor to halt execution and enter a safe state, often used for severe hardware or software failures."
+        },
+        "#ZZ": {
+            "vector": 255,
+            "description": "Fatal Abort - A non-recoverable error that causes the processor stop all operations and fully shut down, typically requiring a system restart."
+        }
+
     },
     "architecture": {
         "name": "Hayneko_Arch32S",
@@ -603,6 +671,11 @@
                 "number": 2,
                 "type": "KR",
                 "description": "Program Counter Register - Holds the address of the next instruction to be executed. Can be modified in kernel mode or hardware mode."
+            },
+            "IDT": {
+                "number": 3,
+                "type": "KR",
+                "description": "Interrupt Descriptor Table Register - Points to the interrupt descriptor table used for handling interrupts."
             }
         }
     }
