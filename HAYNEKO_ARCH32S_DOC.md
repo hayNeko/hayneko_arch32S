@@ -30,6 +30,10 @@ The HAYNEKO ARCH32S is a 32-bit architecture designed for efficiency and perform
 - some of the prefixes conflict with each other, and the instruction decoder will ignore the conflict
     - `REX` and `FEX` prefixes conflict with each other, only one of them can be used in an instruction
 
+- `REX` and `FEX` prefixes are used to extend the register operand of the instruction
+    - for `REX` prefix, the range of registers is extended from 0-15 to 16-31
+    - for `FEX` prefix, the range of registers is extended from single-precision to double-precision
+
 - `IOR` prefix overrides the original instruction opcode length by giving length
     - it can expand the instruction from 1-2 bytes to maximum 16 bytes
     - it often used in very long immediate or complex instructions (such as vector or matrix instructions)

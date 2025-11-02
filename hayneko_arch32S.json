@@ -1084,14 +1084,14 @@
                 "format": [
                     "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
                 ],
-                "description": "(Conflicting with FEX prefix)Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
+                "description": "(Conflicting with FEX prefix) Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
             },
             "FEX": {
                 "length": 1,
                 "format": [
                     "1", "1", "1", "0", ["DFR", "SF1", "SF2", "SF3"]
                 ],
-                "description": "(Conflicting with REX prefix)Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
+                "description": "(Conflicting with REX prefix) Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
             },
             "BRH_H": {
                 "length": 1,
@@ -1441,6 +1441,7 @@
         "virtual_memory": {
             "supported": true,
             "page_size": 4096,
+            "levels": 2,
             "address_translation": "two-level paging",
             "description": "Supports virtual memory with a page size of 4KB and uses a two-level paging mechanism for address translation."
         },
@@ -1475,11 +1476,23 @@
             },
             "L7": {
                 "level": 7,
-                "description": "Platform Secure mode for handling secure operations and sensitive data, providing an additional layer of security. It Has individual instruction set and system control."
+                "description": "Platform Secure mode for handling secure operations and sensitive data, providing an additional layer of security. The Platform Secure system Has individual instruction set and hardware support for handling sensitive data and operations."
             }
+        },
+        "L1_cache": {
+            "size": 32768,
+            "associativity": "4-way set associative",
+            "line_size": "64 bytes",
+            "description": "Level 1 Cache (L1 Cache) is a small, fast memory located close to the CPU cores, designed to store frequently accessed data and instructions to reduce latency and improve overall performance."
+        },
+        "L2_cache": {
+            "size": 1048576,
+            "associativity": "8-way set associative",
+            "line_size": "64 bytes",
+            "description": "Level 2 Cache (L2 Cache) is a larger, slightly slower memory located between the L1 Cache and main memory, designed to store data and instructions that are less frequently accessed than those in the L1 Cache. It is used to reduce the impact of cache misses on overall performance."
         }
-
     },
+    "register_renaming": {},
     "registers": {
         "interger": {
             "all": "Free access in all modes.",
