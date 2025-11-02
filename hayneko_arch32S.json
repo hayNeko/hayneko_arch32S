@@ -80,7 +80,7 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L0",
+                    "mode": "L1",
                     "can_use_with_prefixes": [],
                     "description": "Call - Calls a subroutine at the specified absolute address (32-bit displacement) and saves the return address onto the stack."
                 },
@@ -515,12 +515,238 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L0",
+                    "mode": "L1",
                     "can_use_with_prefixes": [
                         "REX"
                     ],
                     "description": "Jump - Unconditionally relative jumps to the specified absolute address (32-bit displacement)."
+                },
+                "JC": {
+                    "opcode": "0x46",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Carry - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is set."
+                },
+                "JUMPC": {
+                    "opcode": "0x83",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Carry - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is set."
+                },
+                "JZ": {
+                    "opcode": "0x47",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Zero - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is set."
+                },
+                "JUMPZ": {
+                    "opcode": "0x82",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Zero - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is set."
+                },
+                "JO": {
+                    "opcode": "0x48",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Overflow - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is set."
+                },
+                "JUMPO": {
+                    "opcode": "0x84",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Overflow - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is set."
+                },
+                "JN": {
+                    "opcode": "0x49",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Negative - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is set."
+                },
+                "JUMPN": {
+                    "opcode": "0x85",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Negative - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is set."
+                },
+                "JNC": {
+                    "opcode": "0x4A",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Carry - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is not set."
+                },
+                "JUMPNC": {
+                    "opcode": "0x86",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Carry - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is not set."
+                },
+                "JNZ": {
+                    "opcode": "0x4B",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Zero - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is not set."
+                },
+                "JUMPNZ": {
+                    "opcode": "0x87",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Zero - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is not set."
+                },
+                "JNO": {
+                    "opcode": "0x4C",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Overflow - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is not set."
+                },
+                "JUMPNO": {
+                    "opcode": "0x88",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Overflow - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is not set."
+                },
+                "JNN": {
+                    "opcode": "0x4D",
+                    "length": 3,
+                    "format": [
+                        "OPC", "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Negative - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is not set."
+                },
+                "JUMPNN": {
+                    "opcode": "0x89",
+                    "length": 5,
+                    "format": [
+                        "OPC", "A32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L1",
+                    "can_use_with_prefixes": [
+                        "BRH-H"
+                    ],
+                    "description": "Jump if Not Negative - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is not set."
                 }
+
+
             },
             "stack_operations": {
                 "PUSH": {
@@ -748,6 +974,20 @@
                         null
                     ],
                     "description": "System Return - Returns from a system call to the point where the system call occurred."
+                },
+                "IOINT": {
+                    "opcode": "0x32",
+                    "length": 2,
+                    "format": [
+                        "OPC", "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L3",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "I/O Interrupt - Triggers an interrupt to request a service from the I/O subsystem."
                 }
             },
             "memory_management": {
@@ -1098,7 +1338,7 @@
                 "format": [
                     "1", "1", "0", "0", "0", "0", "0", ["BHT"]
                 ],
-                "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored."
+                "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored. It modifies the BH bit in the instruction to indicate whether the branch is likely to be taken or not taken."
             },
             "IOR": {
                 "length": 1,
@@ -1401,7 +1641,7 @@
         "bit_size": 32,
         "endian": "little",
         "is_support_fpu": true,
-        "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance.",
+        "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance, security, and ease of use. .",
         "hardware_info": {
             "GPR": 32,
             "FPR": 32,
@@ -1512,7 +1752,7 @@
     "register_renaming": {},
     "registers": {
         "interger": {
-            "all": "Free access in all modes.",
+            "minimum_privileged_level": "L0",
             "x0": {
                 "number": 0,
                 "type": "GPR",
@@ -1679,7 +1919,7 @@
         },
         "floating_point": {
             "float": {
-                "all": "Free access in all modes",
+                "minimum_privileged_level": "L0",
                 "f0": {
                     "number": 0,
                     "type": "FPR",
@@ -1762,7 +2002,7 @@
                 }
             },
             "double": {
-                "all": "Free access in all modes",
+                "minimum_privileged_level": "L0",
                 "d0": {
                     "number": 16,
                     "type": "FPR",
@@ -1846,7 +2086,7 @@
             }
         },
         "control": {
-            "all": "only accessible in kernel mode or hardware mode, user-mode denied",
+            "minimum_privileged_level": "L2",
             "cr0": {
                 "number": 0,
                 "type": "CR",
@@ -1869,7 +2109,7 @@
             }
         },
         "kernel": {
-            "all": "only accessible in kernel mode or hardware mode, user-mode denied",
+            "minimum_privileged_level": "L2",
             "mode": {
                 "number": 0,
                 "type": "KR",
