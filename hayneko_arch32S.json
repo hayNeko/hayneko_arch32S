@@ -402,8 +402,6 @@
                     "description": "Unsigned Divide - Performs an unsigned division of the value in the source register SR1 by the value in source register SR2, storing the quotient in the destination register and the remainder in SR3."
                 }
 
-                
-
             },
             "logic": {
                 "SHL": {
@@ -856,7 +854,6 @@
                 }
             },
             "floating_point": {},
-            "double_precision": {},
             "coprocessor": {},
             "system_calls": {
                 "ISYSCALL": {
@@ -1112,7 +1109,7 @@
             ],
             "modify_flags": [],
             "needs_coprocessor": null,
-            "mode": "L0",
+            "mode": "L2",
             "can_use_with_prefixes": [],
             "translate_to": [
                 {
