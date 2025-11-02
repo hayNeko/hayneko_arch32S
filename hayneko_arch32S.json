@@ -31,7 +31,7 @@
                     "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
                 },
                 "NOP4": {
-                    "opcode": "0x11",
+                    "opcode": "0x50",
                     "length": 4,
                     "format": [
                         "OPC", "DRG", "SR1", "I16"
@@ -45,7 +45,7 @@
                     "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
                 },
                 "NOP8": {
-                    "opcode": "0x12",
+                    "opcode": "0x90",
                     "length": 8,
                     "format": [
                         "OPC", "DRG", "SR1", "SR2", "SR3", "OF8", "I32"
@@ -1103,9 +1103,9 @@
             "IOR": {
                 "length": 1,
                 "format": [
-                    "1", "1", "1", "1", ["ISL", "ISL", "ISL", "ISL"]
+                    "1", "1", "1", "1", "0", ["ISL", "ISL", "ISL"]
                 ],
-                "description": "Instruction Opcode Length Override Prefix - explicitly specifies the length of the following opcode, overriding the default length of 1 byte from 1 to 16 bytes."
+                "description": "Instruction Opcode Length Override Prefix - explicitly specifies the length of the following opcode, overriding the default length of 1 byte from 8 to 16 bytes."
             },
             "LOCK": {
                 "length": 1,
@@ -1113,11 +1113,28 @@
                     "1", "1", "0", "0", "0", "0", "1", "0"
                 ],
                 "description": "Lock Prefix - ensures exclusive access to shared memory in multi-processor environments by preventing other processors from accessing the memory location being modified until the operation is complete."
+            },
+            "ILS": {
+                "length": 1,
+                "format": [
+                    "1", "1", "1", "1", "1", ["ISL", "ISL", "ISL"]
+                ],
+                "description": "Instruction Length Specifier Prefix - specifies the length of the instruction is 8 to 16 bytes. ILS prefix can only be used on over 8-byte instructions. This prefix can improve performance by reducing the number of cycles required to decode the instruction."
+            },
+            "DBP": {
+                "length": 1,
+                "format": [
+                    "1", "1", "0", "0", "0", "1", "0", "0"
+                ],
+                "description": "Double Prefix (Prefix extension) - specifies that the next byte is another prefix byte, allowing for two prefixes to be used in sequence. The next prefix doesn't start with '11' bits."
             }
         },
         "format": [
-            "IOR",
+            "DBP",
             "BRH_H",
+            "LOCK",
+            "ILS",
+            "IOR",
             ["REX", "FEX"],
             "OPC"
         ]
