@@ -853,7 +853,25 @@
                     "description": "Store - Store a value from the source register into memory using the address calculated from the base register and offset."
                 }
             },
-            "floating_point": {},
+            "floating_point": {
+                "FADD": {
+                    "opcode": "0x20",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC", "DRG", "SOP", "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+
+                    ],
+                    "needs_coprocessor": "FPU",
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "FEX"
+                    ],
+                    "description": "Floating-Point Addition - Adds the values in the source registers and stores the result in the destination register."
+                }
+            },
             "coprocessor": {},
             "system_calls": {
                 "ISYSCALL": {
@@ -883,6 +901,20 @@
                         null
                     ],
                     "description": "System Call - Invokes a system call and trigger interrupt 8 (#UI) to request a service from the operating system."
+                },
+                "DBG": {
+                    "opcode": "0x1F",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Debug - A breakpoint instruction that triggers a debug event. (same as INT 3)"
                 }
             }
         },
@@ -1580,6 +1612,21 @@
             "description": "Direction Flag - Controls the direction of string operations (0 = increment, 1 = decrement)."
         },
 
+        "FLZ": {
+            "bit_position": 5,
+            "mask": "0x00000020",
+            "description": "Floating-Point Divide-by-Zero Flag - Set if a floating-point division by zero occurs."
+        },
+        "FLO": {
+            "bit_position": 6,
+            "mask": "0x00000040",
+            "description": "Floating-Point Overflow Flag - Set if a floating-point operation results in an overflow."
+        },
+        "FLV": {
+            "bit_position": 7,
+            "mask": "0x00000080",
+            "description": "Floating-Point Result Inaccurate Flag - Set if a floating-point operation results in an inaccurate result."
+        },
 
         "IF": {
             "bit_position": 8,
@@ -1614,10 +1661,10 @@
             "mask": "0x00020000",
             "description": "BMU Enable Flag - Indicates whether the Big Math Unit (BMU) is enabled."
         },
-        "MME": {
+        "CIE": {
             "bit_position": 18,
             "mask": "0x00040000",
-            "description": "MMU Enable Flag - Indicates whether the Memory Management Unit (MMU) is enabled."
+            "description": "CIU Enable Flag - Indicates whether the Complex Instrucion Extension Unit (CIU) is enabled."
         },
 
         "VIE": {

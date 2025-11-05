@@ -48,7 +48,7 @@ class InstructionSetArchitectureFileParser :
 
         # build flag table
 
-        # self.flags                                                          = self.architecture['flags']
+        # self.flags                                                     = self.architecture['flags']
 
         # build instruction table
 
