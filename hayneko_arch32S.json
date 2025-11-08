@@ -73,16 +73,16 @@
                     "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
                 },
                 "CALL": {
-                    "opcode": "0x82",
+                    "opcode": "0x8A",
                     "length": 5,
                     "format": [
                         "OPC", "A32"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [],
-                    "description": "Call - Calls a subroutine at the specified absolute address (32-bit displacement) and saves the return address onto the stack."
+                    "description": "Call (long) - Calls a subroutine at the specified absolute address (32-bit displacement) and saves the return address onto the stack."
                 },
                 "C": {
                     "opcode": "0x44",
@@ -96,7 +96,7 @@
                     "can_use_with_prefixes": [
                         null
                     ],
-                    "description": "Call - Calls a subroutine at the specified immediate address (signed 16-bit displacement) and saves the return address onto the stack."
+                    "description": "Call (short) - Calls a subroutine at the specified immediate address (signed 16-bit displacement) and saves the return address onto the stack."
                 },
                 "RET": {
                     "opcode": "0x04",
@@ -503,7 +503,7 @@
                     "can_use_with_prefixes": [
                         null
                     ],
-                    "description": "Jump - Unconditionally relative jumps to the specified immediate address (signed 16-bit displacement)."
+                    "description": "Jump (short) - Unconditionally relative jumps to the specified immediate address (signed 16-bit displacement)."
                 },
                 "JMP": {
                     "opcode": "0x81",
@@ -513,11 +513,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "REX"
                     ],
-                    "description": "Jump - Unconditionally relative jumps to the specified absolute address (32-bit displacement)."
+                    "description": "Jump (long) - Unconditionally relative jumps to the specified absolute address (32-bit displacement)."
                 },
                 "JC": {
                     "opcode": "0x46",
@@ -531,7 +531,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Carry - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is set."
+                    "description": "Jump if Carry (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is set."
                 },
                 "JUMPC": {
                     "opcode": "0x83",
@@ -541,11 +541,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Carry - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is set."
+                    "description": "Jump if Carry (long) - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is set."
                 },
                 "JZ": {
                     "opcode": "0x47",
@@ -559,7 +559,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Zero - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is set."
+                    "description": "Jump if Zero (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is set."
                 },
                 "JUMPZ": {
                     "opcode": "0x82",
@@ -569,11 +569,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Zero - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is set."
+                    "description": "Jump if Zero (long) - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is set."
                 },
                 "JO": {
                     "opcode": "0x48",
@@ -587,7 +587,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Overflow - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is set."
+                    "description": "Jump if Overflow (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is set."
                 },
                 "JUMPO": {
                     "opcode": "0x84",
@@ -597,11 +597,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Overflow - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is set."
+                    "description": "Jump if Overflow (long) - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is set."
                 },
                 "JN": {
                     "opcode": "0x49",
@@ -615,7 +615,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Negative - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is set."
+                    "description": "Jump if Negative (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is set."
                 },
                 "JUMPN": {
                     "opcode": "0x85",
@@ -625,11 +625,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Negative - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is set."
+                    "description": "Jump if Negative (long) - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is set."
                 },
                 "JNC": {
                     "opcode": "0x4A",
@@ -643,7 +643,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Carry - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is not set."
+                    "description": "Jump if Not Carry (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the carry flag (CF) is not set."
                 },
                 "JUMPNC": {
                     "opcode": "0x86",
@@ -653,11 +653,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Carry - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is not set."
+                    "description": "Jump if Not Carry (long) - Jumps to the specified absolute address (32-bit displacement) if the carry flag (CF) is not set."
                 },
                 "JNZ": {
                     "opcode": "0x4B",
@@ -671,7 +671,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Zero - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is not set."
+                    "description": "Jump if Not Zero (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the zero flag (ZF) is not set."
                 },
                 "JUMPNZ": {
                     "opcode": "0x87",
@@ -681,11 +681,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Zero - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is not set."
+                    "description": "Jump if Not Zero (long) - Jumps to the specified absolute address (32-bit displacement) if the zero flag (ZF) is not set."
                 },
                 "JNO": {
                     "opcode": "0x4C",
@@ -699,7 +699,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Overflow - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is not set."
+                    "description": "Jump if Not Overflow (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the overflow flag (OF) is not set."
                 },
                 "JUMPNO": {
                     "opcode": "0x88",
@@ -709,11 +709,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Overflow - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is not set."
+                    "description": "Jump if Not Overflow (long) - Jumps to the specified absolute address (32-bit displacement) if the overflow flag (OF) is not set."
                 },
                 "JNN": {
                     "opcode": "0x4D",
@@ -727,7 +727,7 @@
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Negative - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is not set."
+                    "description": "Jump if Not Negative (short) - Jumps to the specified immediate address (signed 16-bit displacement) if the negative flag (NF) is not set."
                 },
                 "JUMPNN": {
                     "opcode": "0x89",
@@ -737,11 +737,11 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L1",
+                    "mode": "L0",
                     "can_use_with_prefixes": [
                         "BRH-H"
                     ],
-                    "description": "Jump if Not Negative - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is not set."
+                    "description": "Jump if Not Negative (long) - Jumps to the specified absolute address (32-bit displacement) if the negative flag (NF) is not set."
                 }
 
 
@@ -785,17 +785,31 @@
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
-                    "mode": "L3",
+                    "mode": "L2",
                     "can_use_with_prefixes": [
                         null
                     ],
                     "description": "Push Instruction Pointer - Push the current value of the instruction pointer onto the stack, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
+                },
+                "POPIP": {
+                    "opcode": "0x11",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L2",
+                    "can_use_with_prefixes": [
+                        null
+                    ],
+                    "description": "Pop Instruction Pointer - Pop the top value from the stack into the instruction pointer, and automatically adjust the stack pointer by bit-width (in Hayneko_arch32S, it is 32-bit)."
                 }
             },
             "I/O": {
                 "IN": {
-                    "opcode": "0x30",
-                    "length": 2,
+                    "opcode": "0x4E",
+                    "length": 3,
                     "format": [
                         "OPC", "DRG", "0x0", "PRT"
                     ],
@@ -808,8 +822,8 @@
                     "description": "Input from Port - Read bit-length (in Hayneko_arch32S, it is 32-bit) of data from the specified I/O port into the destination register."
                 },
                 "OUT": {
-                    "opcode": "0x31",
-                    "length": 2,
+                    "opcode": "0x4E",
+                    "length": 3,
                     "format": [
                         "OPC", "SR1", "0x0", "PRT"
                     ],
@@ -862,7 +876,7 @@
                         "OPC", "DRG", "SOP", "SR1", "SR2"
                     ],
                     "modify_flags": [
-
+                        "FLZ", "FLO", "FLV"
                     ],
                     "needs_coprocessor": "FPU",
                     "mode": "L0",
@@ -886,7 +900,7 @@
                     "can_use_with_prefixes": [
                         null
                     ],
-                    "description": "Interrupt System Call - Invokes an interrupt handler to request a service from the operating system."
+                    "description": "System Call - Invokes a system call with an immediate value as the system call number and trigger interrupt 8 (~UI) to request a service from the operating system."
                 },
                 "SYSCALL": {
                     "opcode": "0x3C",
@@ -900,7 +914,7 @@
                     "can_use_with_prefixes": [
                         null
                     ],
-                    "description": "System Call - Invokes a system call and trigger interrupt 8 (#UI) to request a service from the operating system."
+                    "description": "System Call - Invokes a system call and trigger interrupt 8 (~UI) to request a service from the operating system."
                 },
                 "DBG": {
                     "opcode": "0x1F",
@@ -1089,7 +1103,7 @@
                         "can_use_with_prefixes": [
                             "REX"
                         ],
-                        "description": "Move data from/to a kernel register - Copies the value of the source register to the destination kernel register."
+                        "description": "Move data from/to a kernel register - Copies the value of the source register to the destination register."
                     }
                 }
             },
@@ -1151,7 +1165,8 @@
         },
         "PUSHA": {
             "length": 1,
-            "expand_to": 65,
+            "expand_to": 32,
+            "total_bytes": 63,
             "format": [
                 "OPC"
             ],
@@ -1160,6 +1175,18 @@
             "mode": "L2",
             "can_use_with_prefixes": [],
             "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "sp"
+                    }
+                },
+                {
+                    "instruction": "PUSH",
+                    "operands_map": {
+                        "DRG": "bp"
+                    }
+                },
                 {
                     "instruction": "PUSH",
                     "operands_map": {
@@ -1182,12 +1209,6 @@
                     "instruction": "PUSH",
                     "operands_map": {
                         "DRG": "rd"
-                    }
-                },
-                {
-                    "instruction": "PUSH",
-                    "operands_map": {
-                        "DRG": "ri"
                     }
                 },
                 {
@@ -1340,26 +1361,215 @@
                         "DRG": "t7"
                     }
                 },
-
                 {
-                    "instruction": "PUSH",
+                    "instruction": "PUSHIP",
+                    "operands_map": {}
+                }
+            ]
+        },
+        "POPA": {
+            "length": 1,
+            "expand_to": 32,
+            "total_bytes": 63,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L2",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "POPIP",
+                    "operands_map": {}
+                },
+                {
+                    "instruction": "POP",
                     "operands_map": {
-                        "DRG": "sp"
+                        "DRG": "t7"
                     }
                 },
                 {
-                    "instruction": "PUSH",
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t6"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t5"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t4"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t3"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t2"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t1"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "t0"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r23"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r22"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r21"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r20"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r19"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r18"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r17"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r16"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r15"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r14"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r13"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r12"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r11"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r10"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r9"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "r8"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "ri"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "rd"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "rc"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "rb"
+                    }
+                },
+                {
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "ra"
+                    }
+                },
+                {
+                    "instruction": "POP",
                     "operands_map": {
                         "DRG": "bp"
                     }
                 },
                 {
-                    "instruction": "PUSHIP",
-                    "operands_map": {}
+                    "instruction": "POP",
+                    "operands_map": {
+                        "DRG": "sp"
+                    }
                 }
-
             ]
-
         }
     },
     "prefixes": {
@@ -1559,7 +1769,7 @@
             "vector": 7,
             "description": "Invalid Interrupt - Triggered when an invalid interrupt vector is encountered during interrupt handling."
         },
-        "#UI": {
+        "~UI": {
             "vector": 8,
             "description": "User Interrupt - A software-generated interrupt used for user-level interrupt handling."
         },
@@ -2189,21 +2399,20 @@
                 "number": 3,
                 "type": "KR",
                 "description": "Interrupt Descriptor Table Register - Points to the interrupt descriptor table used for handling interrupts."
-            },
-            "pm": {
-                "number": 4,
-                "type": "KR",
-                "description": "Privilege Mode Register - Indicates the current privilege level of the processor."
             }
         }
     },
     "ABI": {
         "format": {
+            "interger_return_value_register": "ra",
             "interger_register_parameters": [
-                "ra", "rd", "ri", "r8", "r9", "r10", "r11", "r12"
+                "rd", "ri", "r8", "r9", "r10", "r11", "r12", "r13"
+            ],
+            "floating_point_return_value_register": [
+                "f0", "d0"
             ],
             "floating_point_register_parameters": [
-                "f0", "f1", "f2", "f3", "d0", "d1", "d2", "d3"
+                "f1", "f2", "f3", "f4", "d1", "d2", "d3", "d4"
             ],
             "system_call_parameters": [
                 "r10", "r11", "r12", "r13", "r14", "r15"
