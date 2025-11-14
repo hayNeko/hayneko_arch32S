@@ -20,7 +20,8 @@
                     "opcode": "0x10",
                     "length": 2,
                     "format": [
-                        "OPC", "IM8"
+                        "OPC",
+                        "IM8"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -34,7 +35,9 @@
                     "opcode": "0x50",
                     "length": 4,
                     "format": [
-                        "OPC", "DRG", "SR1", "I16"
+                        "OPC",
+                        "DRG", "SR1",
+                        "I16"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -48,7 +51,11 @@
                     "opcode": "0x90",
                     "length": 8,
                     "format": [
-                        "OPC", "DRG", "SR1", "SR2", "SR3", "OF8", "I32"
+                        "OPC",
+                        "DRG", "SR1",
+                        "SR2", "SR3",
+                        "OF8",
+                        "I32"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -62,7 +69,10 @@
                     "opcode": "0x42",
                     "length": 4,
                     "format": [
-                        "OPC", "DRG", "SCL", "SR1", "SR2", "OF8"
+                        "OPC",
+                        "DRG", "SCL",
+                        "SR1", "SR2",
+                        "OF8"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -115,7 +125,7 @@
                     "sub_opcode": "0x0",
                     "length": 2,
                     "format": [
-                        "OPC", "SOP", "SR1", "SR2"
+                        "OPC",  "SR1", "SR2"
                     ],
                     "modify_flags": [
                         "ZF", "CF", "OF", "NF"
