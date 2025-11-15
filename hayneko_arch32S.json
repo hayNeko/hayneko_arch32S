@@ -17,7 +17,7 @@
                     "description": "No Operation - Does nothing for one instruction cycle."
                 },
                 "NOP2": {
-                    "opcode": "0x10",
+                    "opcode": "0x08",
                     "length": 2,
                     "format": [
                         "OPC",
@@ -83,10 +83,11 @@
                     "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
                 },
                 "CALL": {
-                    "opcode": "0x8A",
+                    "opcode": "0x80",
                     "length": 5,
                     "format": [
-                        "OPC", "A32"
+                        "OPC",
+                        "A32"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -98,7 +99,8 @@
                     "opcode": "0x44",
                     "length": 3,
                     "format": [
-                        "OPC", "I16"
+                        "OPC",
+                        "I16"
                     ],
                     "modify_flags": [],
                     "needs_coprocessor": null,
@@ -122,10 +124,10 @@
                 },
                 "CMP": {
                     "opcode": "0x05",
-                    "sub_opcode": "0x0",
                     "length": 2,
                     "format": [
-                        "OPC",  "SR1", "SR2"
+                        "OPC",
+                        "SR1", "SR2"
                     ],
                     "modify_flags": [
                         "ZF", "CF", "OF", "NF"
@@ -168,9 +170,195 @@
 
             },
             "data_transfer": {
-
+                "MOV": {
+                    "opcode": "0x01",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "DRG", "SR1"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Move - Copies the value of the source register to the destination register."
+                }
             },
             "arithmetic": {
+                "ADD": {
+                    "opcode": "0x10",
+                    "sub_opcode": "0x0",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP",
+                        "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Add - Adds the values of two source registers and stores the result in the destination register."
+                },
+                "SUB": {
+                    "opcode": "0x10",
+                    "sub_opcode": "0x1",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP",
+                        "SR1", "SR2"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Subtract - Subtracts the values of two source registers and stores the result in the destination register."
+                },
+                "UMUL": {
+                    "opcode": "0x11",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SR1",
+                        "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Unsigned Multiply - Multiplies the values of two source registers and stores the result in the destination and sr1 registers."
+                },
+                "UDIV": {
+                    "opcode": "0x12",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SR1",
+                        "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Unsigned Divide - Divides the values of two source registers and stores the result in the destination (quotient) and sr1 (remainder) registers."
+                },
+                "SMUL": {
+                    "opcode": "0x13",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SR1",
+                        "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Signed Multiply - Multiplies the values of two source registers and stores the result in the destination and sr1 registers."
+                },
+                "SDIV": {
+                    "opcode": "0x14",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "DRG", "SR1",
+                        "SR2", "SR3"
+                    ],
+                    "modify_flags": [
+                        "ZF", "CF", "OF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Signed Divide - Divides the values of two source registers and stores the result in the destination (quotient) and sr1 (remainder) registers."
+                },
+                "ADDSP": {
+                    "opcode": "0x15",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Add SP - Adds the value of the immediate to the stack pointer (SP) and stores the result in the SP register."
+                },
+                "SUBSP": {
+                    "opcode": "0x16",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Subtract SP - Subtracts the value of the immediate from the stack pointer (SP) and stores the result in the SP register."
+                },
+                "INC": {
+                    "opcode": "0x10",
+                    "sub_opcode": "0x2",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP"
+                    ],
+                    "modify_flags": [
+                        "ZF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Increment - Increments the value of the destination register by 1."
+                },
+                "DEC": {
+                    "opcode": "0x10",
+                    "sub_opcode": "0x3",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP"
+                    ],
+                    "modify_flags": [
+                        "ZF", "NF"
+                    ],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Decrement - Decrements the value of the destination register by 1."
+                }
 
             },
             "logic": {
@@ -180,6 +368,101 @@
 
             },
             "stack_operations": {
+                "PUSH": {
+                    "opcode": "0x18",
+                    "sub_opcode": "0x0",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Push - Pushes the value of the source register onto the stack."
+                },
+                "POP": {
+                    "opcode": "0x18",
+                    "sub_opcode": "0x1",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "DRG", "SOP"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [
+                        "REX"
+                    ],
+                    "description": "Pop - Pops the value of the source register from the stack."
+                },
+                "PUSHF": {
+                    "opcode": "0x19",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Push Flags - Pushes the value of the flags register onto the stack."
+                },
+                "POPF": {
+                    "opcode": "0x1A",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Pop Flags - Pops the value of the flags register from the stack."
+                },
+                "PUSHIB": {
+                    "opcode": "0x1B",
+                    "length": 2,
+                    "format": [
+                        "OPC",
+                        "IM8"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Push Byte - Pushes the value of the immediate onto the stack. The value is sign-extended to 32 bits."
+                },
+                "PUSHIW": {
+                    "opcode": "0x48",
+                    "length": 3,
+                    "format": [
+                        "OPC",
+                        "I16"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Push Word - Pushes the value of the immediate onto the stack. The value is sign-extended to 32 bits."
+                },
+                "PUSHIDW": {
+                    "opcode": "0x88",
+                    "length": 5,
+                    "format": [
+                        "OPC",
+                        "I32"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Push Doubleword - Pushes the value of the immediate onto the stack."
+                }
 
             },
             "I/O": {
@@ -257,13 +540,6 @@
                     "1", "1", "0", "0", "0", "0", "0", ["BHT"]
                 ],
                 "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored. It modifies the BH bit in the instruction to indicate whether the branch is likely to be taken or not taken."
-            },
-            "IOR": {
-                "length": 1,
-                "format": [
-                    "1", "1", "1", "1", "0", ["ISL", "ISL", "ISL"]
-                ],
-                "description": "Instruction Opcode Length Override Prefix - explicitly specifies the length of the following opcode, overriding the default length of 1 byte from 8 to 16 bytes."
             },
             "LOCK": {
                 "length": 1,
