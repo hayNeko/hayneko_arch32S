@@ -166,6 +166,42 @@
                         "REX"
                     ],
                     "description": "Clear Direction Flag - Clears the direction flag (DF) to indicate that string operations should process data from low memory addresses to high memory addresses."
+                },
+                "RANDOM": {
+                    "opcode": "0x02",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Random Number Generator - Generates a random number and stores it in the RD register."
+                },
+                "FRANDOM": {
+                    "opcode": "0x03",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Floating-Point Random Number Generator - Generates a random single precision floating-point number and stores it in the F5 register."
+                },
+                "DRANDOM": {
+                    "opcode": "0x04",
+                    "length": 1,
+                    "format": [
+                        "OPC"
+                    ],
+                    "modify_flags": [],
+                    "needs_coprocessor": null,
+                    "mode": "L0",
+                    "can_use_with_prefixes": [],
+                    "description": "Double-Precision Random Number Generator - Generates a random double precision floating-point number and stores it in the D5 registers."
                 }
 
             },
@@ -497,7 +533,36 @@
             "power_management": {}
         },
         "extended": {
-            "XTU_instructions": {},
+            "XTU_instructions": {
+                "memory_operations": {
+                    "RPMOVSB": {
+                        "opcode": "0x00",
+                        "length": 1,
+                        "format": [
+                            "OPC"
+                        ],
+                        "modify_flags": [],
+                        "needs_coprocessor": "XTU",
+                        "mode": "L0",
+                        "can_use_with_prefixes": [],
+                        "must_use_prefix": "XTU",
+                        "description": "Repeat Move String Bytes - read string byte from [RD] and store it in [RS], repeat RC times. RD and RS will automatically increase 1 (DF = 0) or decrease 1 (DF = 1) after each operation."
+                    },
+                    "RPSTOSB": {
+                        "opcode": "0x01",
+                        "length": 1,
+                        "format": [
+                            "OPC"
+                        ],
+                        "modify_flags": [],
+                        "needs_coprocessor": "XTU",
+                        "mode": "L0",
+                        "can_use_with_prefixes": [],
+                        "must_use_prefix": "XTU",
+                        "description": "Repeat Store String Bytes - store string byte in [RS] to [RD], repeat RC times. RD and RS will automatically increase 1 (DF = 0) or decrease 1 (DF = 1) after each operation."
+                    }
+                }
+            },
             "BMU_instructions": {},
             "MMU_instructions": {},
             "CIU_instructions": {}
@@ -516,7 +581,7 @@
         }
     },
     "pseudo_instructions": {
-        
+
     },
     "prefixes": {
         "types": {
@@ -548,27 +613,24 @@
                 ],
                 "description": "Lock Prefix - ensures exclusive access to shared memory in multi-processor environments by preventing other processors from accessing the memory location being modified until the operation is complete."
             },
-            "ILS": {
+            "ISL": {
                 "length": 1,
                 "format": [
-                    "1", "1", "1", "1", "1", ["ISL", "ISL", "ISL"]
+                    "1", "1", "0", "0", ["ISL"], ["ISL"], ["ISL"], ["ISL"]
                 ],
-                "description": "Instruction Length Specifier Prefix - specifies the length of the instruction is 8 to 16 bytes. ILS prefix can only be used on over 8-byte instructions. This prefix can improve performance by reducing the number of cycles required to decode the instruction."
+                "description": "Instruction Specific Length Prefix - specifies the length of the instruction in bytes, from 1 to 16 bytes. This prefix may improve performance by allowing the processor to decode the instruction faster, especially for long instructions."
             },
-            "DBP": {
+            "XTU": {
                 "length": 1,
                 "format": [
-                    "1", "1", "0", "0", "0", "1", "0", "0"
+                    "1", "1", "1", "1", "0", "0", "0", "0"
                 ],
-                "description": "Double Prefix (Prefix extension) - specifies that the next byte is another prefix byte, allowing for two prefixes to be used in sequence. The next prefix doesn't start with '11' bits."
+                "description": "Extended Translation Unit Prefix - the following instruction is executed in XTU."
             }
         },
         "format": [
-            "DBP",
             "BRH_H",
             "LOCK",
-            "ILS",
-            "IOR",
             ["REX", "FEX"],
             "OPC"
         ]
@@ -810,12 +872,6 @@
             "description": "Alignment Check Flag - Enables alignment checking for memory accesses."
         },
 
-        "BH": {
-            "bit_position": 15,
-            "mask": "0x00008000",
-            "description": "Branch Hint Flag - Indicates the likely direction of a branch instruction for optimization purposes. (1 = taken, 0 = not taken)"
-        },
-
         "XTE": {
             "bit_position": 16,
             "mask": "0x00010000",
@@ -849,6 +905,8 @@
         "document": "HAYNEKO_ARCH32S_DOC.md",
         "bit_size": 32,
         "endian": "little",
+        "maximum_instruction_length": 16,
+        "minimum_instruction_length": 1,
         "is_support_fpu": true,
         "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance, security, and ease of use. .",
         "hardware_info": {

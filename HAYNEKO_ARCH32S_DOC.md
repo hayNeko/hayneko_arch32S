@@ -34,17 +34,10 @@ The HAYNEKO ARCH32S is a 32-bit architecture designed for efficiency and perform
     - for `REX` prefix, the range of registers is extended from 0-15 to 16-31
     - for `FEX` prefix, the range of registers is extended from single-precision to double-precision
 
-- `IOR` prefix overrides the original instruction opcode length by giving length
-    - it can expand the opcode length from 1-2 bytes to maximum 16 bytes
-    - it often used in very long immediate or complex instructions (such as vector or matrix instructions)
-
 - `BRH-H` prefix provides a branch hint to the instruction decoder
     - it can improve the branch prediction performance
     - it can only be used with conditional branch instructions, otherwise it will be ignored
 
-- `ILS` prefix is used to specify the instruction length
-    - it specifies the length of the instruction in bytes (8-16 bytes)
-    - it only works with long instructions (instructions needs more than 8 bytes)
 
 ## Hayneko_Arch32S interrupt vectors
 
