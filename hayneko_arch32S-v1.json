@@ -13,10 +13,181 @@
                 "can_use_with_prefixes": [
                     null
                 ],
-                "description": "No Operation - Does nothing for one instruction cycle."
+                "description": "No Operation - Does nothing for one instruction cycle, or occupies 1 byte in the instruction stream for alignment."
+            }
+        },
+        "stack": {
+            "PUSH ra": {
+                "opcode": "0x41",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push ra - Pushes the value of ra onto the stack."
             },
-            "NOP2": {
-                "opcode": "0x10",
+            "POP ra": {
+                "opcode": "0x49",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop ra - Pops the value on the stack to ra."
+            },
+            "PUSH rb": {
+                "opcode": "0x42",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push rb - Pushes the value of rb onto the stack."
+            },
+            "POP rb": {
+                "opcode": "0x4A",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop rb - Pops the value on the stack to rb."
+            },
+            "PUSH rc": {
+                "opcode": "0x43",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push rc - Pushes the value of rc onto the stack."
+            },
+            "POP rc": {
+                "opcode": "0x4B",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop rc - Pops the value on the stack to rc."
+            },
+            "PUSH rd": {
+                "opcode": "0x44",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push rd - Pushes the value of rd onto the stack."
+            },
+            "POP rd": {
+                "opcode": "0x4C",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop rd - Pops the value on the stack to rd."
+            },
+            "PUSH ri": {
+                "opcode": "0x45",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push ri - Pushes the value of ri onto the stack."
+            },
+            "POP ri": {
+                "opcode": "0x4D",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop ri - Pops the value on the stack to ri."
+            },
+            "PUSH bp": {
+                "opcode": "0x46",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push bp - Pushes the value of bp onto the stack."
+            },
+            "POP bp": {
+                "opcode": "0x4E",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop bp - Pops the value on the stack to bp."
+            },
+
+            "PUSHIMM": {
+                "opcode": "0x40",
                 "length": 2,
                 "format": [
                     "OPC",
@@ -25,57 +196,140 @@
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L0",
-                "can_use_with_prefixes": [
-                    null
-                ],
-                "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
+                "can_use_with_prefixes": [],
+                "description": "Push Immediate - Pushes the 1 byte immediate value onto the stack."
             },
-            "NOP4": {
-                "opcode": "0x50",
-                "length": 4,
+
+            "ADDSP": {
+                "opcode": "0x47",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SR1",
-                    "I16"
+                    "IM8"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L0",
-                "can_use_with_prefixes": [
-                    null
-                ],
-                "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
+                "can_use_with_prefixes": [],
+                "description": "Add Stack Pointer - Adds the 1 byte immediate value to the stack pointer and stores the result in the stack pointer register."
             },
-            "NOP8": {
-                "opcode": "0x90",
-                "length": 8,
+            "SUBSP": {
+                "opcode": "0x4F",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SR1",
-                    "SR2", "SR3",
-                    "OF8",
-                    "I32"
+                    "IM8"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L0",
-                "can_use_with_prefixes": [
-                    null
+                "can_use_with_prefixes": [],
+                "description": "Subtract Stack Pointer - Subtracts the 1 byte immediate value from the stack pointer and stores the result in the stack pointer register."
+            },
+
+            "PUSHIMMDW": {
+                "opcode": "0x48",
+                "sub_opcode": "0x0",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP",
+                    "IM32"
                 ],
-                "description": "No Operation - Occupies 8 bytes, can be used for instruction alignment or timing adjustments."
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Push Immediate - Pushes the 4 byte immediate value onto the stack."
             }
+            
         },
-        "stack": {},
         "arithmetic": {},
         "logic": {},
-        "data_transfer": {},
+        "data_transfer": {
+            "MOV": {
+                "opcode": "0x01",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move - Copies the value of the source register to the destination register."
+            },
+            "ENTR": {
+                "opcode": "0x02",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Enter (MOV sp, bp) - Moves the value of the base pointer register to the stack pointer register."
+            },
+            "LEAV": {
+                "opcode": "0x03",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Leave (MOV bp, sp) - Moves the value of the stack pointer register to the base pointer register."
+            }
+        },
         "branch": {},
+        "io": {},
+        "load_store": {
+            "LD": {
+                "opcode": "0x10",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "OF8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load - Loads the value in the source register + the 1 byte offset as a signed value into the destination register. (DRG = [SR1 + OF8])"
+            },
+            "ST": {
+                "opcode": "0x11",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "SR1",
+                    "OF8", "DRG"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Store - Stores the value in the source register into the destination register + the 1 byte offset as a signed value. (DRG = [SR1 + OF8])"
+            }
+        },
         "system": {}
     },
     "prefixes": {
         "types": {
             "REX": {
                 "length": 1,
+                "mnemonic": "REX.XT",
                 "format": [
                     "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
                 ],
@@ -83,44 +337,67 @@
             },
             "BRH_H": {
                 "length": 1,
+                "mnemonic": ["BRH_H.NT", "BRH_H.T"],
                 "format": [
-                    "1", "1", "0", "0", "0", "0", "0", ["BHT"]
+                    "1", "1", "1", "1", "0", "0", "1", ["BHT"]
                 ],
                 "description": "Branch Hint Prefix - provides a hint to the processor about the likely direction of a branch instruction to optimize instruction pipelining. Must be used before a branch instruction, or the hint is ignored. It modifies the BH bit in the instruction to indicate whether the branch is likely to be taken or not taken."
             },
             "LOCK": {
                 "length": 1,
+                "mnemonic": "LOCK",
                 "format": [
-                    "1", "1", "0", "0", "0", "0", "1", "0"
+                    "1", "1", "1", "1", "0", "1", "0", "0"
                 ],
                 "description": "Lock Prefix - ensures exclusive access to shared memory in multi-processor environments by preventing other processors from accessing the memory location being modified until the operation is complete."
             },
             "ISL": {
                 "length": 1,
+                "mnemonic": "ISL.L",
                 "format": [
-                    "1", "1", "0", "0", ["ISL"], ["ISL"], ["ISL"], ["ISL"]
+                    "1", "1", "0", "1", ["ISL"], ["ISL"], ["ISL"], ["ISL"]
                 ],
-                "description": "Instruction Specific Length Prefix - specifies the length of the instruction in bytes, from 1 to 16 bytes. This prefix may improve performance by allowing the processor to decode the instruction faster, especially for long instructions."
+                "description": "Instruction Specific Length Prefix - specifies the length of the instruction in bytes, from 4 to 16 bytes. Values 0-3 are invalid. This prefix may improve performance by allowing the processor to decode the instruction faster."
             },
             "XTU": {
                 "length": 1,
+                "mnemonic": "XTU.EN",
                 "format": [
-                    "1", "1", "1", "1", "0", "0", "0", "0"
+                    "1", "1", "1", "1", "0", "1", "0", "1"
                 ],
                 "description": "Extended Instruction Unit Prefix - the following instruction is executed in XTU."
             },
             "BMU": {
                 "length": 1,
+                "mnemonic": "BMU.EN",
                 "format": [
-                    "1", "1", "0", "0", "0", "1", "0", "1"
+                    "1", "1", "1", "1", "0", "1", "1", "0"
                 ],
                 "description": "Big Math Unit Prefix - the following instruction is executed in BMU."
+            },
+            "DBI": {
+                "length": 1,
+                "mnemonic": null,
+                "format": [
+                    "1", "1", "1", "1", "0", "0", "0", "0"
+                ],
+                "description": "Double Byte Instruction Prefix - escape byte to allow the use of 2-byte instructions."
+            },
+            "TBI": {
+                "length": 1,
+                "mnemonic": null,
+                "format": [
+                    "1", "1", "1", "1", "0", "0", "1", "0"
+                ],
+                "description": "Triple Byte Instruction Prefix - escape byte to allow the use of 3-byte instructions."
             }
         },
-        "format": [
+        "order": [
             "BRH_H",
             "LOCK",
             "REX",
+            ["ISL", "XTU", "BMU"],
+            ["DBI", "TBI"],
             "OPC"
         ]
     },
