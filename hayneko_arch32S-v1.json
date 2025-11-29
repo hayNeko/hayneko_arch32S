@@ -1,603 +1,76 @@
 {
     "instructions": {
-        "basic": {
-            "control": {
-                "NOP": {
-                    "opcode": "0x00",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        null
-                    ],
-                    "description": "No Operation - Does nothing for one instruction cycle."
-                },
-                "NOP2": {
-                    "opcode": "0x08",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "IM8"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        null
-                    ],
-                    "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
-                },
-                "NOP4": {
-                    "opcode": "0x50",
-                    "length": 4,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "I16"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        null
-                    ],
-                    "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
-                },
-                "NOP8": {
-                    "opcode": "0x90",
-                    "length": 8,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "SR2", "SR3",
-                        "OF8",
-                        "I32"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        null
-                    ],
-                    "description": "No Operation - Occupies 8 bytes, can be used for instruction alignment or timing adjustments."
-                },
-                "LEA": {
-                    "opcode": "0x42",
-                    "length": 4,
-                    "format": [
-                        "OPC",
-                        "DRG", "SCL",
-                        "SR1", "SR2",
-                        "OF8"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Load Effective Address - Calculates the effective address: DRG = SR1 + (SR2 * Scale) + Offset."
-                },
-                "CALL": {
-                    "opcode": "0x80",
-                    "length": 5,
-                    "format": [
-                        "OPC",
-                        "A32"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Call (long) - Calls a subroutine at the specified absolute address (32-bit displacement) and saves the return address onto the stack."
-                },
-                "C": {
-                    "opcode": "0x44",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "I16"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        null
-                    ],
-                    "description": "Call (short) - Calls a subroutine at the specified immediate address (signed 16-bit displacement) and saves the return address onto the stack."
-                },
-                "RET": {
-                    "opcode": "0x04",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Return - Returns from a subroutine and restores the return address from the stack."
-                },
-                "CMP": {
-                    "opcode": "0x05",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "SR1", "SR2"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Compare - Compares the values of two source registers and sets the appropriate flags based on the result."
-                },
-                "STD": {
-                    "opcode": "0x0B",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Set Direction Flag - Sets the direction flag (DF) to indicate that string operations should process data from high memory addresses to low memory addresses."
-                },
-                "CLD": {
-                    "opcode": "0x0C",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Clear Direction Flag - Clears the direction flag (DF) to indicate that string operations should process data from low memory addresses to high memory addresses."
-                },
-                "RANDOM": {
-                    "opcode": "0x02",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Random Number Generator - Generates a random number and stores it in the RD register."
-                },
-                "FRANDOM": {
-                    "opcode": "0x03",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Floating-Point Random Number Generator - Generates a random single precision floating-point number and stores it in the F5 register."
-                },
-                "DRANDOM": {
-                    "opcode": "0x04",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Double-Precision Random Number Generator - Generates a random double precision floating-point number and stores it in the D5 registers."
-                }
-
+        "control": {
+            "NOP": {
+                "opcode": "0x00",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "No Operation - Does nothing for one instruction cycle."
             },
-            "data_transfer": {
-                "MOV": {
-                    "opcode": "0x01",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Move - Copies the value of the source register to the destination register."
-                }
+            "NOP2": {
+                "opcode": "0x10",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "IM8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
             },
-            "arithmetic": {
-                "ADD": {
-                    "opcode": "0x10",
-                    "sub_opcode": "0x0",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP",
-                        "SR1", "SR2"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Add - Adds the values of two source registers and stores the result in the destination register."
-                },
-                "SUB": {
-                    "opcode": "0x10",
-                    "sub_opcode": "0x1",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP",
-                        "SR1", "SR2"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Subtract - Subtracts the values of two source registers and stores the result in the destination register."
-                },
-                "UMUL": {
-                    "opcode": "0x11",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "SR2", "SR3"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Unsigned Multiply - Multiplies the values of two source registers and stores the result in the destination and sr1 registers."
-                },
-                "UDIV": {
-                    "opcode": "0x12",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "SR2", "SR3"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Unsigned Divide - Divides the values of two source registers and stores the result in the destination (quotient) and sr1 (remainder) registers."
-                },
-                "SMUL": {
-                    "opcode": "0x13",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "SR2", "SR3"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Signed Multiply - Multiplies the values of two source registers and stores the result in the destination and sr1 registers."
-                },
-                "SDIV": {
-                    "opcode": "0x14",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "DRG", "SR1",
-                        "SR2", "SR3"
-                    ],
-                    "modify_flags": [
-                        "ZF", "CF", "OF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Signed Divide - Divides the values of two source registers and stores the result in the destination (quotient) and sr1 (remainder) registers."
-                },
-                "ADDSP": {
-                    "opcode": "0x15",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "IM8"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Add SP - Adds the value of the immediate to the stack pointer (SP) and stores the result in the SP register."
-                },
-                "SUBSP": {
-                    "opcode": "0x16",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "IM8"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Subtract SP - Subtracts the value of the immediate from the stack pointer (SP) and stores the result in the SP register."
-                },
-                "INC": {
-                    "opcode": "0x10",
-                    "sub_opcode": "0x2",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP"
-                    ],
-                    "modify_flags": [
-                        "ZF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Increment - Increments the value of the destination register by 1."
-                },
-                "DEC": {
-                    "opcode": "0x10",
-                    "sub_opcode": "0x3",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP"
-                    ],
-                    "modify_flags": [
-                        "ZF", "NF"
-                    ],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Decrement - Decrements the value of the destination register by 1."
-                }
-
+            "NOP4": {
+                "opcode": "0x50",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
             },
-            "logic": {
-
-            },
-            "branch_and_jump": {
-
-            },
-            "stack_operations": {
-                "PUSH": {
-                    "opcode": "0x18",
-                    "sub_opcode": "0x0",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Push - Pushes the value of the source register onto the stack."
-                },
-                "POP": {
-                    "opcode": "0x18",
-                    "sub_opcode": "0x1",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "DRG", "SOP"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [
-                        "REX"
-                    ],
-                    "description": "Pop - Pops the value of the source register from the stack."
-                },
-                "PUSHF": {
-                    "opcode": "0x19",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Push Flags - Pushes the value of the flags register onto the stack."
-                },
-                "POPF": {
-                    "opcode": "0x1A",
-                    "length": 1,
-                    "format": [
-                        "OPC"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Pop Flags - Pops the value of the flags register from the stack."
-                },
-                "PUSHIB": {
-                    "opcode": "0x1B",
-                    "length": 2,
-                    "format": [
-                        "OPC",
-                        "IM8"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Push Byte - Pushes the value of the immediate onto the stack. The value is sign-extended to 32 bits."
-                },
-                "PUSHIW": {
-                    "opcode": "0x48",
-                    "length": 3,
-                    "format": [
-                        "OPC",
-                        "I16"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Push Word - Pushes the value of the immediate onto the stack. The value is sign-extended to 32 bits."
-                },
-                "PUSHIDW": {
-                    "opcode": "0x88",
-                    "length": 5,
-                    "format": [
-                        "OPC",
-                        "I32"
-                    ],
-                    "modify_flags": [],
-                    "needs_coprocessor": null,
-                    "mode": "L0",
-                    "can_use_with_prefixes": [],
-                    "description": "Push Doubleword - Pushes the value of the immediate onto the stack."
-                }
-
-            },
-            "I/O": {
-
-            },
-            "load_store": {
-
-            },
-            "floating_point": {
-
-            },
-            "coprocessor": {},
-            "system_calls": {
-
+            "NOP8": {
+                "opcode": "0x90",
+                "length": 8,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SR2", "SR3",
+                    "OF8",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "No Operation - Occupies 8 bytes, can be used for instruction alignment or timing adjustments."
             }
         },
-        "kernel": {
-            "interrupts": {
-
-            },
-            "memory_management": {
-                
-            },
-            "context_switching": {
-
-            },
-            "I/O_management": {}
-        },
-        "hardware": {
-            "hardware_control": {},
-            "device_management": {},
-            "power_management": {}
-        },
-        "extended": {
-            "XTU_instructions": {
-                "memory_operations": {
-                    "RPMOVSB": {
-                        "opcode": "0x00",
-                        "length": 1,
-                        "format": [
-                            "OPC"
-                        ],
-                        "modify_flags": [],
-                        "needs_coprocessor": "XTU",
-                        "mode": "L0",
-                        "can_use_with_prefixes": [],
-                        "must_use_prefix": "XTU",
-                        "description": "Repeat Move String Bytes - read string byte from [RD] and store it in [RS], repeat RC times. RD and RS will automatically increase 1 (DF = 0) or decrease 1 (DF = 1) after each operation."
-                    },
-                    "RPSTOSB": {
-                        "opcode": "0x01",
-                        "length": 1,
-                        "format": [
-                            "OPC"
-                        ],
-                        "modify_flags": [],
-                        "needs_coprocessor": "XTU",
-                        "mode": "L0",
-                        "can_use_with_prefixes": [],
-                        "must_use_prefix": "XTU",
-                        "description": "Repeat Store String Bytes - store string byte in [RS] to [RD], repeat RC times. RD and RS will automatically increase 1 (DF = 0) or decrease 1 (DF = 1) after each operation."
-                    },
-                    "ERPMOVSB": {
-                        "opcode": "0x40",
-                        "length": 3,
-                        "format": [
-                            "OPC",
-                            "DRG", "SR1",
-                            "SR2", "GB1", "GB1", "0b0", "0b0"
-                        ],
-                        "modify_flags": [],
-                        "needs_coprocessor": "XTU",
-                        "mode": "L0",
-                        "can_use_with_prefixes": [],
-                        "must_use_prefix": "XTU",
-                        "description": "Extended Repeat Move String Bytes - read string byte from [DRG] and store it in [SR1], repeat SR2 times. The first GB1 bit specifies the direction of the operation (0 = increase, 1 = decrease), and the second GB1 bit specifies that the string is directly write to memory or store in a cache (0 = memory, 1 = cache)."
-
-                    }
-                }
-            },
-            "BMU_instructions": {},
-            "MMU_instructions": {},
-            "CIU_instructions": {}
-        },
-        "hypervisor": {
-            "virtualization": {},
-            "hypervisor_control": {}
-        },
-        "virtual_machine": {
-            "virtual_machine_extensions": {},
-            "virtual_machine_services": {}
-        },
-        "security": {
-            "security_extensions": {},
-            "security_services": {}
-        }
-    },
-    "pseudo_instructions": {
-
+        "stack": {},
+        "arithmetic": {},
+        "logic": {},
+        "data_transfer": {},
+        "branch": {},
+        "system": {}
     },
     "prefixes": {
         "types": {
@@ -606,14 +79,7 @@
                 "format": [
                     "1", "1", "1", "0", ["DRG", "SR1", "SR2", "SR3"]
                 ],
-                "description": "(Conflicting with FEX prefix) Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers."
-            },
-            "FEX": {
-                "length": 1,
-                "format": [
-                    "1", "1", "1", "0", ["DFR", "SF1", "SF2", "SF3"]
-                ],
-                "description": "(Conflicting with REX prefix) Floating-point Register Extension Prefix - if any bits in the FEX prefix are set, the instruction extends that register fields to allow access 0-15 (single precision) -> 16-31 (double precision) of the 32-bit floating-point registers."
+                "description": "Register Extension Prefix - if any bits in the REX prefix are set, the instruction extends that register fields to allow access 0-15 -> 16-31 of the 32-bit general-purpose registers, or f0-f15 -> d0-d15 of the"
             },
             "BRH_H": {
                 "length": 1,
@@ -641,13 +107,20 @@
                 "format": [
                     "1", "1", "1", "1", "0", "0", "0", "0"
                 ],
-                "description": "Extended Translation Unit Prefix - the following instruction is executed in XTU."
+                "description": "Extended Instruction Unit Prefix - the following instruction is executed in XTU."
+            },
+            "BMU": {
+                "length": 1,
+                "format": [
+                    "1", "1", "0", "0", "0", "1", "0", "1"
+                ],
+                "description": "Big Math Unit Prefix - the following instruction is executed in BMU."
             }
         },
         "format": [
             "BRH_H",
             "LOCK",
-            ["REX", "FEX"],
+            "REX",
             "OPC"
         ]
     },
@@ -763,78 +236,116 @@
         }
     },
     "interrupt_vectors": {
-        "~DE": {
+        "#BRK": {
             "vector": 0,
-            "description": "Divide Error - Triggered when a division by zero or overflow occurs during integer division."
+            "description": "Breakpoint interrupt vector."
         },
-        "#UD": {
+        "#DIV": {
             "vector": 1,
-            "description": "Invalid Opcode Error - Triggered when an invalid or undefined opcode is encountered during instruction decoding."
+            "description": "Divide-by-zero error interrupt vector."
         },
-        "#PF": {
+        "#NMI": {
             "vector": 2,
-            "description": "Page Fault - Triggered when a memory access violation occurs, such as accessing a non-present page or violating access permissions."
+            "description": "Non-maskable interrupt vector."
         },
-        "#SO": {
+        "#HLT": {
             "vector": 3,
-            "description": "Stack Overflow - Triggered when a stack overflow condition is detected, such as exceeding the stack size limit."
+            "description": "Halt instruction interrupt vector."
         },
-        "#GP": {
+        "#MCC": {
             "vector": 4,
-            "description": "General Protection Fault - Triggered when a protection violation occurs, such as accessing restricted memory or executing privileged instructions in user mode."
+            "description": "Machine check interrupt vector."
         },
-        "*DF": {
+        "#MAV": {
             "vector": 5,
-            "description": "Double Fault - Triggered when a second exception occurs while trying to service a prior exception, often indicating a serious system error."
+            "description": "Memory access violation interrupt vector."
         },
-        "#NC": {
+        "#UDI": {
             "vector": 6,
-            "description": "Non-Maskable Interrupt - A high-priority interrupt that cannot be ignored by the processor, typically used for critical hardware events."
+            "description": "Undefined instruction interrupt vector."
         },
-        "#II": {
+        "#PGF": {
             "vector": 7,
-            "description": "Invalid Interrupt - Triggered when an invalid interrupt vector is encountered during interrupt handling."
-        },
-        "~UI": {
-            "vector": 8,
-            "description": "User Interrupt - A software-generated interrupt used for user-level interrupt handling."
-        },
-        "#TS": {
-            "vector": 9,
-            "description": "Timer Interrupt - Triggered by the system timer to manage time-related tasks."
-        },
-        "#AC": {
-            "vector": 10,
-            "description": "Alignment Check Error - Triggered when a memory access violates the alignment requirements of the processor."
+            "description": "Page fault interrupt vector."
         },
 
-        "~MOUSE_INT": {
+
+
+        "~KBD": {
+            "vector": 16,
+            "description": "Keyboard interrupt vector."
+        },
+        "~COM1": {
+            "vector": 17,
+            "description": "COM1 interrupt vector."
+        },
+        "~COM2": {
+            "vector": 18,
+            "description": "COM2 interrupt vector."
+        },
+        "~LPT1": {
+            "vector": 19,
+            "description": "LPT1 interrupt vector."
+        },
+        "~LPT2": {
+            "vector": 20,
+            "description": "LPT2 interrupt vector."
+        },
+        "~MSE": {
+            "vector": 21,
+            "description": "Mouse interrupt vector."
+        },
+        "~TSC": {
+            "vector": 22,
+            "description": "TSC-Timer interrupt vector."
+        },
+        "~PIT": {
+            "vector": 23,
+            "description": "PIT-Timer interrupt vector."
+        },
+        "~RTC": {
+            "vector": 24,
+            "description": "RTC-Timer interrupt vector."
+        },
+        "~HDD": {
+            "vector": 25,
+            "description": "HDD-Disk interrupt vector."
+        },
+        "~NET": {
+            "vector": 26,
+            "description": "NET-Network interrupt vector."
+        },
+        "~CD": {
+            "vector": 27,
+            "description": "CD-CD-ROM interrupt vector."
+        },
+        "~PRN": {
+            "vector": 28,
+            "description": "PRN-Printer interrupt vector."
+        },
+        "~LPT3": {
+            "vector": 29,
+            "description": "LPT3 interrupt vector."
+        },
+        "~LPT4": {
+            "vector": 30,
+            "description": "LPT4 interrupt vector."
+        },
+        "~LPT5": {
+            "vector": 31,
+            "description": "LPT5 interrupt vector."
+        },
+        "~LPT6": {
             "vector": 32,
-            "description": "Mouse Interrupt - Triggered by mouse input events."
+            "description": "LPT6 interrupt vector."
         },
-        "~KEYBOARD_INT": {
+        "~LPT7": {
             "vector": 33,
-            "description": "Keyboard Interrupt - Triggered by keyboard input events."
-        },
-        "#SERIAL_INT": {
-            "vector": 34,
-            "description": "Serial Interrupt - Triggered by serial input events."
-        },
-        "#DISK_INT": {
-            "vector": 35,
-            "description": "Disk Interrupt - Triggered by disk input events."
-        },
-
-
-
-        "*MC": {
-            "vector": 254,
-            "description": "Machine Check - Triggered when the CPU detects a hardware error that cannot be corrected, such as memory errors or cache errors."
-        },
-        "*FTLAB": {
-            "vector": 255,
-            "description": "Fatal Abort - Triggered when another fatal error occurs while handling Double Fault or CPU had detected a hardware fault, this will immediately reset the CPU."
+            "description": "LPT7 interrupt vector."
         }
+        
+        
+        
 
     },
     "flags": {
@@ -895,8 +406,9 @@
             "bit_position": 13,
             "mask": "0x00002000",
             "description": "Alignment Check Flag - Enables alignment checking for memory accesses."
-        },
-
+        }
+    },
+    "status_flags": {
         "XTE": {
             "bit_position": 16,
             "mask": "0x00010000",
@@ -930,8 +442,6 @@
         "document": "HAYNEKO_ARCH32S_DOC.md",
         "bit_size": 32,
         "endian": "little",
-        "maximum_instruction_length": 16,
-        "minimum_instruction_length": 1,
         "is_support_fpu": true,
         "description": "Hayneko_Arch32S is a 32-bit RISC-like architecture with a Harvard architecture design, supporting floating-point operations. It is designed for efficient performance, security, and ease of use. .",
         "hardware_info": {
@@ -940,6 +450,9 @@
             "CR": 4,
             "memory_size": 4294967296,
             "instruction_length_type": "float",
+            "instruction_length": [
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+            ],
             "floating_point_format": "IEEE 754",
             "floating_point_precision": "single precision (32-bit) and double precision (64-bit)"
         },
