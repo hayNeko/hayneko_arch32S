@@ -186,11 +186,13 @@
                 "description": "Pop bp - Pops the value on the stack to bp."
             },
 
-            "PUSHIMM": {
-                "opcode": "0x40",
-                "length": 2,
+            "PUSHIMMB": {
+                "opcode": "0x48",
+                "sub_opcode": "0x0",
+                "length": 3,
                 "format": [
                     "OPC",
+                    "0x0", "SOP",
                     "IM8"
                 ],
                 "modify_flags": [],
@@ -228,24 +230,741 @@
             },
 
             "PUSHIMMDW": {
-                "opcode": "0x48",
-                "sub_opcode": "0x0",
-                "length": 6,
+                "opcode": "0x40",
+                "length": 5,
                 "format": [
                     "OPC",
-                    "0x0", "SOP",
-                    "IM32"
+                    "I32"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L0",
                 "can_use_with_prefixes": [],
                 "description": "Push Immediate - Pushes the 4 byte immediate value onto the stack."
+            },
+            "PUSHIMMW": {
+                "opcode": "0x48",
+                "sub_opcode": "0x4",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP",
+                    "IM16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push Word Immediate - Pushes the 2 byte immediate value onto the stack."
+            },
+
+            "PUSH": {
+                "opcode": "0x48",
+                "sub_opcode": "0x8",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push - Pushes the value of the source register onto the stack."
+            },
+            "POP": {
+                "opcode": "0x48",
+                "sub_opcode": "0x9",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop - Pops the value on the stack to the destination register."
+            },
+
+            "PUSHF": {
+                "opcode": "0x48",
+                "sub_opcode": "0xC",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Push Flags - Pushes the value of the flags register onto the stack."
+            },
+            "POPF": {
+                "opcode": "0x48",
+                "sub_opcode": "0xD",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Pop Flags - Pops the value on the stack to the flags register."
+            },
+            "PUSHIP": {
+                "opcode": "0x48",
+                "sub_opcode": "0xE",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Push Instruction Pointer - Pushes the value of the instruction pointer onto the stack."
+            },
+            "POPIP": {
+                "opcode": "0x48",
+                "sub_opcode": "0xF",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "0x0", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Pop Instruction Pointer - Pops the value on the stack to the instruction pointer."
             }
             
         },
-        "arithmetic": {},
-        "logic": {},
+        "arithmetic": {
+            "ADD": {
+                "opcode": "0x60",
+                "sub_opcode": "0x0",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Add - Adds the values of two source registers and stores the result in the destination register."
+            },
+            "SUB": {
+                "opcode": "0x60",
+                "sub_opcode": "0x1",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Subtract - Subtracts the value of the second source register from the first source register and stores the result in the destination register."
+            },
+            "MUL": {
+                "opcode": "0x60",
+                "sub_opcode": "0x2",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Multiply - Multiplies the values of two source registers and stores the result in the destination register."
+            },
+            "DIV": {
+                "opcode": "0x60",
+                "sub_opcode": "0x3",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Divide - Divides the value of the first source register by the value of the second source register and stores the result in the destination register."
+            },
+            "UMUL": {
+                "opcode": "0x60",
+                "sub_opcode": "0x4",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Unsigned Multiply - Multiplies the unsigned values of two source registers and stores the result in the destination register."
+            },
+            "UDIV": {
+                "opcode": "0x60",
+                "sub_opcode": "0x5",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Unsigned Divide - Divides the unsigned value of the first source register by the unsigned value of the second source register and stores the result in the destination register."
+            },
+            "REM": {
+                "opcode": "0x60",
+                "sub_opcode": "0x7",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Remainder - Calculates the remainder of the division of the first source register by the second source register and stores the result in the destination register."
+            }
+        },
+        "logic": {
+            "XOR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x1",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive OR - Performs a bitwise exclusive OR operation between the values in the two source registers and stores the result in the destination register."
+            },
+            "AND": {
+                "opcode": "0x50",
+                "sub_opcode": "0x2",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "AND - Performs a bitwise AND operation between the values in the two source registers and stores the result in the destination register."
+            },
+            "OR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x3",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "OR - Performs a bitwise OR operation between the values in the two source registers and stores the result in the destination register."
+            },
+            "NOT": {
+                "opcode": "0x54",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG","SR1"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NOT - Performs a bitwise NOT operation on the value in the source register and stores the result in the destination register."
+            },
+            "XNOR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x5",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive NOR - Performs a bitwise exclusive NOR operation between the values in the two source registers and stores the result in the destination register."
+            },
+            "NAND": {
+                "opcode": "0x50",
+                "sub_opcode": "0x6",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NAND - Performs a bitwise NAND operation between the values in the two source registers and stores the result in the destination register."
+            },
+            "NOR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x7",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NOR - Performs a bitwise NOR operation between the values in the two source registers and stores the result in the destination register."
+            },
+
+            "XORI": {
+                "opcode": "0x51",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive OR Immediate - Performs a bitwise exclusive OR operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+            "ANDI": {
+                "opcode": "0x52",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "AND Immediate - Performs a bitwise AND operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+            "ORI": {
+                "opcode": "0x53",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "OR Immediate - Performs a bitwise OR operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+            "XNORI": {
+                "opcode": "0x55",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive NOR Immediate - Performs a bitwise exclusive NOR operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+            "NANDI": {
+                "opcode": "0x56",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NAND Immediate - Performs a bitwise NAND operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+            "NORI": {
+                "opcode": "0x57",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NOR Immediate - Performs a bitwise NOR operation between the value in the source register and the 1 byte immediate value, storing the result in the destination register."
+            },
+
+            "SHL": {
+                "opcode": "0x58",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Left - Shifts the bits in the source register to the left by the number of positions specified in the immediate value, filling the least significant bits with zeros, and stores the result in the destination register."
+            },
+            "SHR": {
+                "opcode": "0x59",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Right - Shifts the bits in the source register to the right by the number of positions specified in the immediate value, filling the most significant bits with zeros, and stores the result in the destination register."
+            },
+            "ROL": {
+                "opcode": "0x5E",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Rotate Left - Rotates the bits in the source register to the left by the number of positions specified in the immediate value, wrapping the bits around, and stores the result in the destination register."
+            },
+            "ROR": {
+                "opcode": "0x5F",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Rotate Right - Rotates the bits in the source register to the right by the number of positions specified in the immediate value, wrapping the bits around, and stores the result in the destination register."
+            },
+            "SAR": {
+                "opcode": "0x5B",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Arithmetic Right - Shifts the bits in the source register to the right by the number of positions specified in the immediate value, preserving the sign bit (most significant bit), and stores the result in the destination register."
+            },
+
+            "BTLE": {
+                "opcode": "0x50",
+                "sub_opcode": "0x0",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Big endian to little endian - Converts the value in the source register from big-endian to little-endian format and stores the result in the destination register."
+            },
+            "BTBE": {
+                "opcode": "0x50",
+                "sub_opcode": "0x4",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Little endian to big endian - Converts the value in the source register from little-endian to big-endian format and stores the result in the destination register."
+            },
+
+            "XCHG": {
+                "opcode": "0x50",
+                "sub_opcode": "0xA",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exchange - Swaps the values between the destination and source registers."
+            },
+
+            "SHLR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x8",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "0x0"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Half Left - Shifts the bits in the source register to the left, filling the least significant bits with zeros, and stores the result in the destination register. The maximum shift amount is 32."
+            },
+            "SHRR": {
+                "opcode": "0x50",
+                "sub_opcode": "0x9",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "0x0"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Half Right - Shifts the bits in the source register to the right, filling the most significant bits with zeros, and stores the result in the destination register. The maximum shift amount is 32."
+            },
+            "SARR": {
+                "opcode": "0x50",
+                "sub_opcode": "0xD",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "0x0"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Shift Arithmetic Left - Shifts the bits in the source register to the left, preserving the sign bit (most significant bit), and stores the result in the destination register. The maximum shift amount is 32."
+            },
+            "ROLR": {
+                "opcode": "0x50",
+                "sub_opcode": "0xE",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "0x0"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Rotate Left - Rotates the bits in the source register to the left, wrapping the bits around, and stores the result in the destination register. The maximum rotate amount is 32."
+            },
+            "RORR": {
+                "opcode": "0x50",
+                "sub_opcode": "0xF",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "0x0"
+                ],
+                "modify_flags": [
+                    "ZF",  "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Rotate Right - Rotates the bits in the source register to the right, wrapping the bits around, and stores the result in the destination register. The maximum rotate amount is 32."
+            }
+        },
         "data_transfer": {
             "MOV": {
                 "opcode": "0x01",
@@ -311,8 +1030,8 @@
                 "length": 3,
                 "format": [
                     "OPC",
-                    "SR1",
-                    "OF8", "DRG"
+                    "SR1", "DRG",
+                    "OF8"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
@@ -323,7 +1042,69 @@
                 "description": "Store - Stores the value in the source register into the destination register + the 1 byte offset as a signed value. (DRG = [SR1 + OF8])"
             }
         },
-        "system": {}
+        "system": {
+            "SYSCALL": {
+                "opcode": "0x0F",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "System Call - Triggers a system call interrupt to request services from the operating system."
+            },
+            "SYSRET": {
+                "opcode": "0x9F",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "System Return - Returns from a system call interrupt back to user mode."
+            },
+            "HALT": {
+                "opcode": "0x90",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L3",
+                "can_use_with_prefixes": [],
+                "description": "Halt - Halts the processor until the next external interrupt is received."
+            },
+            "LDIDT": {
+                "opcode": "0x91",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Load IDT - Loads the address of the interrupt descriptor table into the IDT register."
+            },
+            "MODIDT": {
+                "opcode": "0x92",
+                "length": 5,
+                "format": [
+                    "OPC",
+                    "A32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Modify IDT - Modifies the address of the interrupt descriptor table to the specified 4 byte address."
+            }
+        }
     },
     "prefixes": {
         "types": {
@@ -1218,16 +1999,17 @@
         "format": {
             "interger_return_value_register": "ra",
             "interger_register_parameters": [
-                "rd", "ri", "r8", "r9", "r10", "r11", "r12", "r13"
+                "rb", "rd", "ri", "r8", "r9", "r10", "r11", "r12"
             ],
             "floating_point_return_value_register": [
                 "f0", "d0"
             ],
             "floating_point_register_parameters": [
-                "f1", "f2", "f3", "f4", "d1", "d2", "d3", "d4"
+                "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8",
+                "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8"
             ],
             "system_call_parameters": [
-                "r10", "r11", "r12", "r13", "r14", "r15"
+                "ra", "rc", "r13", "r14", "r15"
             ]
         }
     }
