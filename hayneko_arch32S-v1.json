@@ -14,6 +14,75 @@
                     null
                 ],
                 "description": "No Operation - Does nothing for one instruction cycle, or occupies 1 byte in the instruction stream for alignment."
+            },
+            "ENTR": {
+                "opcode": "0x02",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Enter (MOV sp, bp) - Moves the value of the base pointer register to the stack pointer register."
+            },
+            "LEAV": {
+                "opcode": "0x03",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Leave (MOV bp, sp) - Moves the value of the stack pointer register to the base pointer register."
+            },
+            "CMP": {
+                "opcode": "0x07",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Compare - Compares(subtracts) the values of two source registers and sets the flags accordingly."
+            },
+            "JMP": {
+                "opcode": "0x08",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "A16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Jump near - Unconditionally jumps to the specified 2 byte address."
+            },
+            "JMPR": {
+                "opcode": "0x09",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "0x0"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Jump Register - Unconditionally jumps to the address contained in the source register."
             }
         },
         "stack": {
@@ -348,12 +417,80 @@
                 "mode": "L2",
                 "can_use_with_prefixes": [],
                 "description": "Pop Instruction Pointer - Pops the value on the stack to the instruction pointer."
+            },
+            "LDSTVAL": {
+                "opcode": "0x48",
+                "sub_opcode": "0xA",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "OF8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load Stack Value - Loads a value from the stack at an offset from the stack pointer into the destination register. (Offset is a signed 1 byte value.) (x86: MOV reg, [SP + offset])"
+            },
+            "STSTVAL": {
+                "opcode": "0x48",
+                "sub_opcode": "0xB",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "OF8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Store Stack Value - Stores a value from the source register into the stack at an offset from the stack pointer. (Offset is a signed 1 byte value.) (x86: MOV [SP + offset], reg)"
+            },
+            "LDSTVALW": {
+                "opcode": "0x48",
+                "sub_opcode": "0x6",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "OF16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load Stack Value - Loads a value from the stack at an offset from the stack pointer into the destination register. (Offset is a signed 2 byte value.) (x86: MOV reg, [SP + offset])"
+            },
+            "STSTVALW": {
+                "opcode": "0x48",
+                "sub_opcode": "0x7",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "OF16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Store Stack Value - Stores a value from the source register into the stack at an offset from the stack pointer. (Offset is a signed 2 byte value.) (x86: MOV [SP + offset], reg)"
             }
             
         },
         "arithmetic": {
             "ADD": {
-                "opcode": "0x60",
+                "opcode": "0x67",
                 "sub_opcode": "0x0",
                 "length": 3,
                 "format": [
@@ -372,7 +509,7 @@
                 "description": "Add - Adds the values of two source registers and stores the result in the destination register."
             },
             "SUB": {
-                "opcode": "0x60",
+                "opcode": "0x67",
                 "sub_opcode": "0x1",
                 "length": 3,
                 "format": [
@@ -390,14 +527,12 @@
                 ],
                 "description": "Subtract - Subtracts the value of the second source register from the first source register and stores the result in the destination register."
             },
-            "MUL": {
-                "opcode": "0x60",
-                "sub_opcode": "0x2",
-                "length": 3,
+            "INC": {
+                "opcode": "0x68",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
-                    "SR1", "SR2"
+                    "DRG", "SR1"
                 ],
                 "modify_flags": [
                     "ZF", "CF", "OF", "NF"
@@ -407,16 +542,14 @@
                 "can_use_with_prefixes": [
                     "REX"
                 ],
-                "description": "Multiply - Multiplies the values of two source registers and stores the result in the destination register."
+                "description": "Increment - Increases the value in the source register by 1 and stores the result in the destination register."
             },
-            "DIV": {
-                "opcode": "0x60",
-                "sub_opcode": "0x3",
-                "length": 3,
+            "DEC": {
+                "opcode": "0x6C",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
-                    "SR1", "SR2"
+                    "DRG", "SR1"
                 ],
                 "modify_flags": [
                     "ZF", "CF", "OF", "NF"
@@ -426,16 +559,14 @@
                 "can_use_with_prefixes": [
                     "REX"
                 ],
-                "description": "Divide - Divides the value of the first source register by the value of the second source register and stores the result in the destination register."
+                "description": "Decrement - Decreases the value in the source register by 1 and stores the result in the destination register."
             },
-            "UMUL": {
-                "opcode": "0x60",
-                "sub_opcode": "0x4",
-                "length": 3,
+            "NEG": {
+                "opcode": "0x69",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
-                    "SR1", "SR2"
+                    "DRG", "SR1"
                 ],
                 "modify_flags": [
                     "ZF", "CF", "OF", "NF"
@@ -445,16 +576,14 @@
                 "can_use_with_prefixes": [
                     "REX"
                 ],
-                "description": "Unsigned Multiply - Multiplies the unsigned values of two source registers and stores the result in the destination register."
+                "description": "Negate - Negates the value in the source register (two's complement) and stores the result in the destination register."
             },
-            "UDIV": {
-                "opcode": "0x60",
-                "sub_opcode": "0x5",
-                "length": 3,
+            "ABS": {
+                "opcode": "0x6D",
+                "length": 2,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
-                    "SR1", "SR2"
+                    "DRG", "SR1"
                 ],
                 "modify_flags": [
                     "ZF", "CF", "OF", "NF"
@@ -464,16 +593,47 @@
                 "can_use_with_prefixes": [
                     "REX"
                 ],
-                "description": "Unsigned Divide - Divides the unsigned value of the first source register by the unsigned value of the second source register and stores the result in the destination register."
+                "description": "Absolute Value - Computes the absolute value of the value in the source register and stores the result in the destination register."
             },
-            "REM": {
+            "INC rc": {
+                "opcode": "0x6B",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "Increment rc - Increases the value in the rc register by 1."
+            },
+            "DEC rc": {
+                "opcode": "0x6F",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "Decrement rc - Decreases the value in the rc register by 1."
+            },
+            "ADDIB": {
                 "opcode": "0x60",
-                "sub_opcode": "0x7",
                 "length": 3,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
-                    "SR1", "SR2"
+                    "DRG", "SR1",
+                    "IM8"
                 ],
                 "modify_flags": [
                     "ZF", "CF", "OF", "NF"
@@ -483,8 +643,63 @@
                 "can_use_with_prefixes": [
                     "REX"
                 ],
-                "description": "Remainder - Calculates the remainder of the division of the first source register by the second source register and stores the result in the destination register."
+                "description": "Add Immediate Byte - Adds the 1 byte immediate value to the value in the source register and stores the result in the destination register."
+            },
+            "SUBIB": {
+                "opcode": "0x61",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "IM8"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Subtract Immediate Byte - Subtracts the 1 byte immediate value from the value in the source register and stores the result in the destination register."
+            },
+            "ADDIDW": {
+                "opcode": "0x6A",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Add Immediate Double Word - Adds the 4 byte immediate value to the value in the source register and stores the result in the destination register."
+            },
+            "SUBIDW": {
+                "opcode": "0x6E",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Subtract Immediate Double Word - Subtracts the 4 byte immediate value from the value in the source register and stores the result in the destination register."
             }
+
         },
         "logic": {
             "XOR": {
@@ -737,7 +952,7 @@
                     "IM8"
                 ],
                 "modify_flags": [
-                    "ZF",  "CF", "OF", "NF"
+                    "ZF", "CF", "OF", "NF"
                 ],
                 "needs_coprocessor": null,
                 "mode": "L0",
@@ -755,7 +970,7 @@
                     "IM8"
                 ],
                 "modify_flags": [
-                    "ZF",  "CF", "OF", "NF"
+                    "ZF", "CF", "OF", "NF"
                 ],
                 "needs_coprocessor": null,
                 "mode": "L0",
@@ -773,7 +988,7 @@
                     "IM8"
                 ],
                 "modify_flags": [
-                    "ZF",  "CF", "OF", "NF"
+                    "ZF", "CF", "OF", "NF"
                 ],
                 "needs_coprocessor": null,
                 "mode": "L0",
@@ -791,7 +1006,7 @@
                     "IM8"
                 ],
                 "modify_flags": [
-                    "ZF",  "CF", "OF", "NF"
+                    "ZF", "CF", "OF", "NF"
                 ],
                 "needs_coprocessor": null,
                 "mode": "L0",
@@ -809,7 +1024,7 @@
                     "IM8"
                 ],
                 "modify_flags": [
-                    "ZF",  "CF", "OF", "NF"
+                    "ZF", "CF", "OF", "NF"
                 ],
                 "needs_coprocessor": null,
                 "mode": "L0",
@@ -853,8 +1068,7 @@
             },
 
             "XCHG": {
-                "opcode": "0x50",
-                "sub_opcode": "0xA",
+                "opcode": "0x5C",
                 "length": 2,
                 "format": [
                     "OPC",
@@ -980,33 +1194,222 @@
                     "REX"
                 ],
                 "description": "Move - Copies the value of the source register to the destination register."
-            },
-            "ENTR": {
-                "opcode": "0x02",
-                "length": 1,
-                "format": [
-                    "OPC"
-                ],
-                "modify_flags": [],
-                "needs_coprocessor": null,
-                "mode": "L0",
-                "can_use_with_prefixes": [],
-                "description": "Enter (MOV sp, bp) - Moves the value of the base pointer register to the stack pointer register."
-            },
-            "LEAV": {
-                "opcode": "0x03",
-                "length": 1,
-                "format": [
-                    "OPC"
-                ],
-                "modify_flags": [],
-                "needs_coprocessor": null,
-                "mode": "L0",
-                "can_use_with_prefixes": [],
-                "description": "Leave (MOV bp, sp) - Moves the value of the stack pointer register to the base pointer register."
             }
         },
-        "branch": {},
+        "branch": {
+            "JZ": {
+                "opcode": "0x20",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Zero - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the zero flag (ZF) is set."
+            },
+            "JC": {
+                "opcode": "0x21",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Carry - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the carry flag (CF) is set."
+            },
+            "JO": {
+                "opcode": "0x22",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Overflow - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the overflow flag (OF) is set."
+            },
+            "JN": {
+                "opcode": "0x23",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Negative - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the negative flag (NF) is set."
+            },
+            "JNZ": {
+                "opcode": "0x24",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Not Zero - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the zero flag (ZF) is not set."
+            },
+            "JNC": {
+                "opcode": "0x25",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Not Carry - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the carry flag (CF) is not set."
+            },
+            "JNO": {
+                "opcode": "0x26",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Not Overflow - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the overflow flag (OF) is not set."
+            },
+            "JNN": {
+                "opcode": "0x27",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Not Negative - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the negative flag (NF) is not set."
+            },
+
+            "JL": {
+                "opcode": "0x28",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Less - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the signed comparison indicates the first value is less than the second. (NF != OF)"
+            },
+            "JGE": {
+                "opcode": "0x29",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Greater or Equal - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the signed comparison indicates the first value is greater than or equal to the second. (NF == OF)"
+            },
+            "JA": {
+                "opcode": "0x2A",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Above - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the unsigned comparison indicates the first value is above the second. (CF == 0 && ZF == 0)"
+            },
+            "JBE": {
+                "opcode": "0x2B",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Below or Equal - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the unsigned comparison indicates the first value is below or equal to the second. (CF == 1 || ZF == 1)"
+            },
+            "JLE": {
+                "opcode": "0x2C",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Less or Equal - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the signed comparison indicates the first value is less than or equal to the second. (ZF == 1 || NF != OF)"
+            },
+            "JAG": {
+                "opcode": "0x2D",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "O16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "BRH_H"
+                ],
+                "description": "Jump if Above or Greater - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the unsigned comparison indicates the first value is above and the signed comparison indicates the first value is greater than the second. (CF == 0 && ZF == 0 && NF == OF)"
+            }
+            
+        },
         "io": {},
         "load_store": {
             "LD": {
@@ -1168,19 +1571,21 @@
                 "length": 1,
                 "mnemonic": null,
                 "format": [
-                    "1", "1", "1", "1", "0", "0", "1", "0"
+                    "1", "1", "1", "1", "0", "0", "0", "1"
                 ],
                 "description": "Triple Byte Instruction Prefix - escape byte to allow the use of 3-byte instructions."
             }
         },
         "order": [
+            "ISL",
             "BRH_H",
             "LOCK",
             "REX",
-            ["ISL", "XTU", "BMU"],
+            ["XTU", "BMU"],
             ["DBI", "TBI"],
             "OPC"
-        ]
+        ],
+        "max_size": 4
     },
     "encode": {
         "OPC": {
