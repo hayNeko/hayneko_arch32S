@@ -83,6 +83,92 @@
                     "REX"
                 ],
                 "description": "Jump Register - Unconditionally jumps to the address contained in the source register."
+            },
+
+            "CALL": {
+                "opcode": "0x2E",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "A16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Call near - Calls the subroutine at the specified 2 byte address."
+            },
+            "CALLR": {
+                "opcode": "0x0A",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "0x0"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Call Register - Calls the subroutine at the address contained in the source register."
+            },
+            "RET": {
+                "opcode": "0x2F",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Return - Returns from the current subroutine."
+            },
+            "IMM": {
+                "opcode": "0x50",
+                "sub_opcode": "0xA",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Load Immediate - Loads the 4 byte immediate value into the destination register."
+            },
+            "IMMB": {
+                "opcode": "0x50",
+                "sub_opcode": "0xB",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "IM8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Load Immediate Byte - Loads the 1 byte immediate value into the destination register."
+            },
+            "IMMBSX": {
+                "opcode": "0x50",
+                "sub_opcode": "0xC",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "IM8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Load Immediate Byte with Sign Extension - Loads the 1 byte immediate value into the destination register with sign extension."
             }
         },
         "stack": {
@@ -485,6 +571,41 @@
                     "REX"
                 ],
                 "description": "Store Stack Value - Stores a value from the source register into the stack at an offset from the stack pointer. (Offset is a signed 2 byte value.) (x86: MOV [SP + offset], reg)"
+            },
+
+            "PUSHTR": {
+                "opcode": "0x48",
+                "sub_opcode": "0x1",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "SR1", "SOP",
+                    "SR2", "SR3"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Push triple register - Pushes the values of three source registers onto the stack in order: SR1, SR2, SR3."
+            },
+            "POPTR": {
+                "opcode": "0x48",
+                "sub_opcode": "0x5",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Pop triple register - Pops the top three values from the stack into the destination registers in order: SR1, SR2, SR3."
             }
             
         },
@@ -628,7 +749,7 @@
                 "description": "Decrement rc - Decreases the value in the rc register by 1."
             },
             "ADDIB": {
-                "opcode": "0x60",
+                "opcode": "0x62",
                 "length": 3,
                 "format": [
                     "OPC",
@@ -646,7 +767,7 @@
                 "description": "Add Immediate Byte - Adds the 1 byte immediate value to the value in the source register and stores the result in the destination register."
             },
             "SUBIB": {
-                "opcode": "0x61",
+                "opcode": "0x65",
                 "length": 3,
                 "format": [
                     "OPC",
@@ -698,6 +819,91 @@
                     "REX"
                 ],
                 "description": "Subtract Immediate Double Word - Subtracts the 4 byte immediate value from the value in the source register and stores the result in the destination register."
+            },
+
+            "MUL": {
+                "opcode": "0x60",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SR2", "SR3"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Multiply - Multiplies the values of two source registers and stores the lower 32 bits of the result in the destination register, and the upper 32 bits in a SR3 register."
+            },
+            "DIV": {
+                "opcode": "0x61",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SR2", "SR3"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Divide - Divides the value in the source register by the value in the second source register and stores the quotient in the destination register and the remainder in a SR3 register."
+            },
+            "SMUL": {
+                "opcode": "0x63",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SR2", "SR3"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Signed Multiply - Multiplies the signed values of two source registers and stores the lower 32 bits of the result in the destination register, and the upper 32 bits in a SR3 register."
+            },
+            "SDIV": {
+                "opcode": "0x64",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SR2", "SR3"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Signed Divide - Divides the signed value in the source register by the signed value in the second source register and stores the quotient in the destination register and the remainder in a SR3 register."
+            },
+            "RANDOM": {
+                "opcode": "0x66",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Random Number Generator - Generates a random number and stores it in the RD register."
             }
 
         },
@@ -1492,21 +1698,90 @@
                 "needs_coprocessor": null,
                 "mode": "L2",
                 "can_use_with_prefixes": [],
-                "description": "Load IDT - Loads the address of the interrupt descriptor table into the IDT register."
+                "description": "Load IDT - Loads the IDT register to rb."
             },
             "MODIDT": {
                 "opcode": "0x92",
-                "length": 5,
+                "length": 6,
                 "format": [
                     "OPC",
+                    "OF8",
                     "A32"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L2",
                 "can_use_with_prefixes": [],
-                "description": "Modify IDT - Modifies the address of the interrupt descriptor table to the specified 4 byte address."
+                "description": "Modify IDT - Reads the address in IDT register, adds the 1 byte offset (unsigned) to it as the address and writes the new address to that location."
+            },
+            "SETIDT": {
+                "opcode": "0x93",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "OF8",
+                    "A32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Set IDT - Sets the IDT register to the specified 4 byte address."
             }
+        }
+    },
+    "psuedo_instructions": {
+        "NOP2": {
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                },
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                }
+            ],
+            "length_after": 2,
+            "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
+        },
+        "NOP4": {
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                },
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                },
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                },
+                {
+                    "instruction": "NOP",
+                    "operands": []
+                }
+            ],
+            "length_after": 4,
+            "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
         }
     },
     "prefixes": {
