@@ -169,6 +169,63 @@
                 "mode": "L0",
                 "can_use_with_prefixes": [],
                 "description": "Load Immediate Byte with Sign Extension - Loads the 1 byte immediate value into the destination register with sign extension."
+            },
+            "LEA": {
+                "opcode": "0x04",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "OF8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load Effective Address - Loads the effective address calculated by adding the signed 1 byte offset to the value in the source register into the destination register."
+            },
+            "LEAC": {
+                "opcode": "0x05",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "SCL", "SR2",
+                    "OF8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load Effective Address with Scale - Loads the effective address calculated by adding the signed 1 byte offset to the value in the source register plus the value in the second source register multiplied by the scale factor into the destination register. (Effective Address = SR1 + (SR2 * SCL) + OF8)"
+            },
+            "CLI": {
+                "opcode": "0x94",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Clear Interrupt Flag - Disables maskable hardware interrupts by clearing the interrupt flag in the flags register."
+            },
+            "STI": {
+                "opcode": "0x98",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Set Interrupt Flag - Enables maskable hardware interrupts by setting the interrupt flag in the flags register."
             }
         },
         "stack": {
@@ -1616,7 +1673,34 @@
             }
             
         },
-        "io": {},
+        "io": {
+            "IN": {
+                "opcode": "0x30",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "PRT"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L3",
+                "can_use_with_prefixes": [],
+                "description": "Input - Reads a byte from the specified port into the ri register."
+            },
+            "OUT": {
+                "opcode": "0x38",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "PRT"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L3",
+                "can_use_with_prefixes": [],
+                "description": "Output - Writes the value in the ri register to the specified port."
+            }
+        },
         "load_store": {
             "LD": {
                 "opcode": "0x10",
@@ -1698,7 +1782,7 @@
                 "needs_coprocessor": null,
                 "mode": "L2",
                 "can_use_with_prefixes": [],
-                "description": "Load IDT - Loads the IDT register to rb."
+                "description": "Load IDT - Loads the IDT register to rb. (LD rb, [IDT])"
             },
             "MODIDT": {
                 "opcode": "0x92",
@@ -1712,21 +1796,20 @@
                 "needs_coprocessor": null,
                 "mode": "L2",
                 "can_use_with_prefixes": [],
-                "description": "Modify IDT - Reads the address in IDT register, adds the 1 byte offset (unsigned) to it as the address and writes the new address to that location."
+                "description": "Modify IDT - Reads the address in IDT register, adds the 1 byte offset (unsigned) to it as the address and writes the new address to that location. (LD [IDT + OF8], A32)"
             },
             "SETIDT": {
                 "opcode": "0x93",
-                "length": 6,
+                "length": 5,
                 "format": [
                     "OPC",
-                    "OF8",
                     "A32"
                 ],
                 "modify_flags": [],
                 "needs_coprocessor": null,
                 "mode": "L2",
                 "can_use_with_prefixes": [],
-                "description": "Set IDT - Sets the IDT register to the specified 4 byte address."
+                "description": "Set IDT - Writes the address in A32 to the IDT register. (ST [IDT], A32)"
             }
         }
     },
@@ -1782,6 +1865,30 @@
             ],
             "length_after": 4,
             "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
+        },
+        "SAL": {
+            "length": 3,
+            "format": [
+                "OPC",
+                "DRG", "SR1",
+                "IM8"
+            ],
+            "modify_flags": [
+                "ZF", "CF", "OF", "NF"
+            ],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "SHL",
+                    "operands": ["{DRG}", "{SR1}", "{IM8}"]
+                }
+            ],
+            "length_after": 3,
+            "description": "Shift Arithmetic Left - Alias for SHL instruction."
         }
     },
     "prefixes": {
