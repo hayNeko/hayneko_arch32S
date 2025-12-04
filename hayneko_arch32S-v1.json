@@ -25,7 +25,7 @@
                 "needs_coprocessor": null,
                 "mode": "L0",
                 "can_use_with_prefixes": [],
-                "description": "Enter (MOV sp, bp) - Moves the value of the base pointer register to the stack pointer register."
+                "description": "Enter (MOV bp, sp) - Creates a new stack frame by moving the value of the stack pointer register to the base pointer register."
             },
             "LEAV": {
                 "opcode": "0x03",
@@ -37,7 +37,7 @@
                 "needs_coprocessor": null,
                 "mode": "L0",
                 "can_use_with_prefixes": [],
-                "description": "Leave (MOV bp, sp) - Moves the value of the stack pointer register to the base pointer register."
+                "description": "Leave (MOV sp, bp) - Destroys the current stack frame by moving the value of the base pointer register to the stack pointer register."
             },
             "CMP": {
                 "opcode": "0x07",
@@ -547,20 +547,6 @@
                 "can_use_with_prefixes": [],
                 "description": "Push Instruction Pointer - Pushes the value of the instruction pointer onto the stack."
             },
-            "POPIP": {
-                "opcode": "0x48",
-                "sub_opcode": "0xF",
-                "length": 2,
-                "format": [
-                    "OPC",
-                    "0x0", "SOP"
-                ],
-                "modify_flags": [],
-                "needs_coprocessor": null,
-                "mode": "L2",
-                "can_use_with_prefixes": [],
-                "description": "Pop Instruction Pointer - Pops the value on the stack to the instruction pointer."
-            },
             "LDSTVAL": {
                 "opcode": "0x48",
                 "sub_opcode": "0xA",
@@ -595,7 +581,7 @@
                 ],
                 "description": "Store Stack Value - Stores a value from the source register into the stack at an offset from the stack pointer. (Offset is a signed 1 byte value.) (x86: MOV [SP + offset], reg)"
             },
-            "LDSTVALW": {
+            "LDSTVALO16": {
                 "opcode": "0x48",
                 "sub_opcode": "0x6",
                 "length": 4,
@@ -612,7 +598,7 @@
                 ],
                 "description": "Load Stack Value - Loads a value from the stack at an offset from the stack pointer into the destination register. (Offset is a signed 2 byte value.) (x86: MOV reg, [SP + offset])"
             },
-            "STSTVALW": {
+            "STSTVALO16": {
                 "opcode": "0x48",
                 "sub_opcode": "0x7",
                 "length": 4,
@@ -1440,6 +1426,115 @@
                     "REX"
                 ],
                 "description": "Rotate Right - Rotates the bits in the source register to the right, wrapping the bits around, and stores the result in the destination register. The maximum rotate amount is 32."
+            },
+
+            "XORIDW": {
+                "opcode": "0x71",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive OR Immediate Double Word - Performs a bitwise exclusive OR operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
+            },
+            "ANDIDW": {
+                "opcode": "0x72",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "AND Immediate Double Word - Performs a bitwise AND operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
+            },
+            "ORIDW": {
+                "opcode": "0x73",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "OR Immediate Double Word - Performs a bitwise OR operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
+            },
+            "XNORIDW": {
+                "opcode": "0x75",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Exclusive NOR Immediate Double Word - Performs a bitwise exclusive NOR operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
+            },
+            "NANDIDW": {
+                "opcode": "0x76",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NAND Immediate Double Word - Performs a bitwise NAND operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
+            },
+            "NORIDW": {
+                "opcode": "0x77",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1",
+                    "I32"
+                ],
+                "modify_flags": [
+                    "ZF", "CF", "OF", "NF"
+                ],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "NOR Immediate Double Word - Performs a bitwise NOR operation between the value in the source register and the 4 byte immediate value, storing the result in the destination register."
             }
         },
         "data_transfer": {
@@ -1457,6 +1552,20 @@
                     "REX"
                 ],
                 "description": "Move - Copies the value of the source register to the destination register."
+            },
+            "CLR ra": {
+                "opcode": "0x5A",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    null
+                ],
+                "description": "Clear ra - Sets the value of the ra register to zero."
             }
         },
         "branch": {
@@ -1810,7 +1919,366 @@
                 "mode": "L2",
                 "can_use_with_prefixes": [],
                 "description": "Set IDT - Writes the address in A32 to the IDT register. (ST [IDT], A32)"
+            },
+            "MOVC": {
+                "opcode": "0x95",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRC", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move Control - Copies the value of the source register to the destination register. (DRC = SR1)"
+            },
+            "COPC": {
+                "opcode": "0x99",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SRC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Copy from Coprocessor - Copies the value from the coprocessor source register to the general-purpose destination register. (DRG = COP SRC)"
+            },
+            "BRK": {
+                "opcode": "0x06",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "Breakpoint - Triggers a breakpoint interrupt to request services from the operating system."
+            },
+            "INT": {
+                "opcode": "0x0B",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "IM8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Interrupt - Triggers an interrupt to request services from the operating system."
+            },
+            "IRET": {
+                "opcode": "0x0C",
+                "length": 1,
+                "format": [
+                    "OPC"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L2",
+                "can_use_with_prefixes": [],
+                "description": "Interrupt Return - Returns from an interrupt back to the previous mode."
             }
+        }
+    },
+    "micro_rom_instruction_translations": {
+        "PUSH ra": {
+            "opcode": "0x41",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{ra}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push ra - Pushes the value of the ra register onto the stack"
+        },
+        "POP ra": {
+            "opcode": "0x49",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{ra}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop ra - Pops the top value from the stack into the ra register"
+        },
+        "PUSH rb": {
+            "opcode": "0x42",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{rb}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push rb - Pushes the value of the rb register onto the stack"
+        },
+        "POP rb": {
+            "opcode": "0x4A",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{rb}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop rb - Pops the top value from the stack into the rb register"
+        },
+        "PUSH rc": {
+            "opcode": "0x43",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{rc}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push rc - Pushes the value of the rc register onto the stack"
+        },
+        "POP rc": {
+            "opcode": "0x4B",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{rc}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop rc - Pops the top value from the stack into the rc register"
+        },
+        "PUSH rd": {
+            "opcode": "0x44",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{rd}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push rd - Pushes the value of the rd register onto the stack"
+        },
+        "POP rd": {
+            "opcode": "0x4C",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{rd}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop rd - Pops the top value from the stack into the rd register"
+        },
+        "PUSH ri": {
+            "opcode": "0x45",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{ri}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push ri - Pushes the value of the ri register onto the stack"
+        },
+        "POP ri": {
+            "opcode": "0x4D",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{ri}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop ri - Pops the top value from the stack into the ri register"
+        },
+        "PUSH bp": {
+            "opcode": "0x46",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "PUSH",
+                    "operands": ["{bp}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Push bp - Pushes the value of the bp register onto the stack"
+        },
+        "POP bp": {
+            "opcode": "0x4E",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [
+                "REX"
+            ],
+            "translate_to": [
+                {
+                    "instruction": "POP",
+                    "operands": ["{bp}"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Pop bp - Pops the top value from the stack into the bp register"
+        },
+        "ENTR": {
+            "opcode": "0x02",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "MOV",
+                    "operands": ["bp", "sp"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Enter Routine - Sets up a new stack frame by moving the current stack pointer (sp) into the base pointer (bp) register."
+        },
+        "LEAV": {
+            "opcode": "0x03",
+            "length": 1,
+            "format": [
+                "OPC"
+            ],
+            "modify_flags": [],
+            "needs_coprocessor": null,
+            "mode": "L0",
+            "can_use_with_prefixes": [],
+            "translate_to": [
+                {
+                    "instruction": "MOV",
+                    "operands": ["sp", "bp"]
+                }
+            ],
+            "length_after": 2,
+            "description": "Leave Routine - Restores the stack pointer (sp) to the value stored in the base pointer (bp) register."
         }
     },
     "psuedo_instructions": {
@@ -2007,6 +2475,15 @@
         "SR3": {
             "size": 4,
             "description": "Source Register 3 field, specifies the third source register for the operation."
+        },
+
+        "DRC": {
+            "size": 4,
+            "description": "Destination Control Register field, specifies the control register where the result of the operation is stored."
+        },
+        "SRC": {
+            "size": 4,
+            "description": "Source Control Register field, specifies the source control register for the operation."
         },
 
         "DFR": {
