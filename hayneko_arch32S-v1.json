@@ -84,6 +84,19 @@
                 ],
                 "description": "Jump Register - Unconditionally jumps to the address contained in the source register."
             },
+            "JMPFAR": {
+                "opcode": "0x3E",
+                "length": 5,
+                "format": [
+                    "OPC",
+                    "A32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L1",
+                "can_use_with_prefixes": [],
+                "description": "Jump far - Unconditionally jumps to the specified 4 byte address."
+            },
 
             "CALL": {
                 "opcode": "0x2E",
@@ -186,7 +199,7 @@
                 ],
                 "description": "Load Effective Address - Loads the effective address calculated by adding the signed 1 byte offset to the value in the source register into the destination register."
             },
-            "LEAC": {
+            "LEASC": {
                 "opcode": "0x05",
                 "length": 4,
                 "format": [
@@ -226,7 +239,257 @@
                 "mode": "L2",
                 "can_use_with_prefixes": [],
                 "description": "Set Interrupt Flag - Enables maskable hardware interrupts by setting the interrupt flag in the flags register."
+            },
+            "COPYIP": {
+                "opcode": "0x5B",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "0x0"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Copy Instruction Pointer - Copies the current value of the instruction pointer into the destination register."
+            },
+
+            "NOP2": {
+                "opcode": "0x80",
+                "sub_opcode": "0x2",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 2 - Does nothing for one instruction cycle, or occupies 2 bytes in the instruction stream for alignment."
+            },
+            "NOP3": {
+                "opcode": "0x80",
+                "sub_opcode": "0x3",
+                "length": 3,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 3 - Does nothing for one instruction cycle, or occupies 3 bytes in the instruction stream for alignment."
+            },
+            "NOP4": {
+                "opcode": "0x80",
+                "sub_opcode": "0x4",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "IM8"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 4 - Does nothing for one instruction cycle, or occupies 4 bytes in the instruction stream for alignment."
+            },
+            "NOP5": {
+                "opcode": "0x80",
+                "sub_opcode": "0x5",
+                "length": 5,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "I16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 5 - Does nothing for one instruction cycle, or occupies 5 bytes in the instruction stream for alignment."
+            },
+            "NOP6": {
+                "opcode": "0x80",
+                "sub_opcode": "0x6",
+                "length": 6,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 6 - Does nothing for one instruction cycle, or occupies 6 bytes in the instruction stream for alignment."
+            },
+            "NOP7": {
+                "opcode": "0x80",
+                "sub_opcode": "0x7",
+                "length": 7,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 7 - Does nothing for one instruction cycle, or occupies 7 bytes in the instruction stream for alignment."
+            },
+            "NOP8": {
+                "opcode": "0x80",
+                "sub_opcode": "0x8",
+                "length": 8,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "OF8",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 8 - Does nothing for one instruction cycle, or occupies 8 bytes in the instruction stream for alignment."
+            },
+            "NOP9": {
+                "opcode": "0x80",
+                "sub_opcode": "0x9",
+                "length": 9,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "O16",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 9 - Does nothing for one instruction cycle, or occupies 9 bytes in the instruction stream for alignment."
+            },
+            "NOP10": {
+                "opcode": "0x80",
+                "sub_opcode": "0xA",
+                "length": 10,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "O32",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 10 - Does nothing for one instruction cycle, or occupies 10 bytes in the instruction stream for alignment."
+            },
+            "NOP11": {
+                "opcode": "0x80",
+                "sub_opcode": "0xB",
+                "length": 11,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "O32",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 11 - Does nothing for one instruction cycle, or occupies 11 bytes in the instruction stream for alignment."
+            },
+            "NOP12": {
+                "opcode": "0x80",
+                "sub_opcode": "0xC",
+                "length": 12,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "PRT",
+                    "O32",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 12 - Does nothing for one instruction cycle, or occupies 12 bytes in the instruction stream for alignment."
+            },
+            "NOP13": {
+                "opcode": "0x80",
+                "sub_opcode": "0xD",
+                "length": 13,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "PRT",
+                    "O16",
+                    "I32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 13 - Does nothing for one instruction cycle, or occupies 13 bytes in the instruction stream for alignment."
+            },
+            "NOP14": {
+                "opcode": "0x80",
+                "sub_opcode": "0xE",
+                "length": 14,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "PRT",
+                    "A16",
+                    "I32",
+                    "O32"
+                    
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 14 - Does nothing for one instruction cycle, or occupies 14 bytes in the instruction stream for alignment."
+            },
+            "NOP15": {
+                "opcode": "0x80",
+                "sub_opcode": "0xF",
+                "length": 15,
+                "format": [
+                    "OPC",
+                    "DRG", "SOP",
+                    "SR1", "SR2",
+                    "A32",
+                    "I32",
+                    "O32"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [],
+                "description": "No Operation 15 - Does nothing for one instruction cycle, or occupies 15 bytes in the instruction stream for alignment."
             }
+            
         },
         "stack": {
             "PUSH ra": {
@@ -581,7 +844,7 @@
                 ],
                 "description": "Store Stack Value - Stores a value from the source register into the stack at an offset from the stack pointer. (Offset is a signed 1 byte value.) (x86: MOV [SP + offset], reg)"
             },
-            "LDSTVALO16": {
+            "LDSTVALOW": {
                 "opcode": "0x48",
                 "sub_opcode": "0x6",
                 "length": 4,
@@ -598,7 +861,7 @@
                 ],
                 "description": "Load Stack Value - Loads a value from the stack at an offset from the stack pointer into the destination register. (Offset is a signed 2 byte value.) (x86: MOV reg, [SP + offset])"
             },
-            "STSTVALO16": {
+            "STSTVALOW": {
                 "opcode": "0x48",
                 "sub_opcode": "0x7",
                 "length": 4,
@@ -654,12 +917,11 @@
         },
         "arithmetic": {
             "ADD": {
-                "opcode": "0x67",
-                "sub_opcode": "0x0",
+                "opcode": "0x70",
                 "length": 3,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
+                    "DRG", "0x0",
                     "SR1", "SR2"
                 ],
                 "modify_flags": [
@@ -673,12 +935,11 @@
                 "description": "Add - Adds the values of two source registers and stores the result in the destination register."
             },
             "SUB": {
-                "opcode": "0x67",
-                "sub_opcode": "0x1",
+                "opcode": "0x74",
                 "length": 3,
                 "format": [
                     "OPC",
-                    "DRG", "SOP",
+                    "DRG", "0x0",
                     "SR1", "SR2"
                 ],
                 "modify_flags": [
@@ -1780,11 +2041,222 @@
                 ],
                 "description": "Jump if Above or Greater - Jumps to the current 2 byte address plus the specified 2 byte offset (signed) if the unsigned comparison indicates the first value is above and the signed comparison indicates the first value is greater than the second. (CF == 0 && ZF == 0 && NF == OF)"
             }
-            
+        },
+        "condition_move": {
+            "MOVZ": {
+                "opcode": "0x30",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Zero - Moves the value from the source register to the destination register if the zero flag (ZF) is set."
+            },
+            "MOVC": {
+                "opcode": "0x31",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Carry - Moves the value from the source register to the destination register if the carry flag (CF) is set."
+            },
+            "MOVO": {
+                "opcode": "0x32",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Overflow - Moves the value from the source register to the destination register if the overflow flag (OF) is set."
+            },
+            "MOVN": {
+                "opcode": "0x33",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Negative - Moves the value from the source register to the destination register if the negative flag (NF) is set."
+            },
+            "MOVNZ": {
+                "opcode": "0x34",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Not Zero - Moves the value from the source register to the destination register if the zero flag (ZF) is not set."
+            },
+            "MOVNC": {
+                "opcode": "0x35",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Not Carry - Moves the value from the source register to the destination register if the carry flag (CF) is not set."
+            },
+            "MOVNO": {
+                "opcode": "0x36",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Not Overflow - Moves the value from the source register to the destination register if the overflow flag (OF) is not set."
+            },
+            "MOVNN": {
+                "opcode": "0x37",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Not Negative - Moves the value from the source register to the destination register if the negative flag (NF) is not set."
+            },
+            "MOVL": {
+                "opcode": "0x38",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Less - Moves the value from the source register to the destination register if the signed comparison indicates the first value is less than the second. (NF != OF)"
+            },
+            "MOVGE": {
+                "opcode": "0x39",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Greater or Equal - Moves the value from the source register to the destination register if the signed comparison indicates the first value is greater than or equal to the second. (NF == OF)"
+            },
+            "MOVA": {
+                "opcode": "0x3A",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Above - Moves the value from the source register to the destination register if the unsigned comparison indicates the first value is above the second. (CF == 0 && ZF == 0)"
+            },
+            "MOVBE": {
+                "opcode": "0x3B",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Below or Equal - Moves the value from the source register to the destination register if the unsigned comparison indicates the first value is below or equal to the second. (CF == 1 || ZF == 1)"
+            },
+            "MOVLE": {
+                "opcode": "0x3C",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Less or Equal - Moves the value from the source register to the destination register if the signed comparison indicates the first value is less than or equal to the second. (ZF == 1 || NF != OF)"
+            },
+            "MOVAG": {
+                "opcode": "0x3D",
+                "length": 2,
+                "format": [
+                    "OPC",
+                    "DRG", "SR1"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Move if Above or Greater - Moves the value from the source register to the destination register if the unsigned comparison indicates the first value is above and the signed comparison indicates the first value is greater than the second. (CF == 0 && ZF == 0 && NF == OF)"
+            }
         },
         "io": {
             "IN": {
-                "opcode": "0x30",
+                "opcode": "0x0D",
                 "length": 2,
                 "format": [
                     "OPC",
@@ -1797,7 +2269,7 @@
                 "description": "Input - Reads a byte from the specified port into the ri register."
             },
             "OUT": {
-                "opcode": "0x38",
+                "opcode": "0x0E",
                 "length": 2,
                 "format": [
                     "OPC",
@@ -1842,6 +2314,38 @@
                     "REX"
                 ],
                 "description": "Store - Stores the value in the source register into the destination register + the 1 byte offset as a signed value. (DRG = [SR1 + OF8])"
+            },
+            "LDOFIP": {
+                "opcode": "0x18",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "DRG", "0x0",
+                    "OF16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Load Offset from Instruction Pointer - Loads the value at the current instruction pointer plus the 2 byte offset (signed) into the destination register. (DRG = [IP + OF16])"
+            },
+            "STOFIP": {
+                "opcode": "0x19",
+                "length": 4,
+                "format": [
+                    "OPC",
+                    "SR1", "0x0",
+                    "OF16"
+                ],
+                "modify_flags": [],
+                "needs_coprocessor": null,
+                "mode": "L0",
+                "can_use_with_prefixes": [
+                    "REX"
+                ],
+                "description": "Store Offset from Instruction Pointer - Stores the value in the source register into the current instruction pointer plus the 2 byte offset (signed). ( [IP + OF16] = SR1 )"
             }
         },
         "system": {
@@ -2282,58 +2786,6 @@
         }
     },
     "psuedo_instructions": {
-        "NOP2": {
-            "length": 1,
-            "format": [
-                "OPC"
-            ],
-            "modify_flags": [],
-            "needs_coprocessor": null,
-            "mode": "L0",
-            "can_use_with_prefixes": [],
-            "translate_to": [
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                },
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                }
-            ],
-            "length_after": 2,
-            "description": "No Operation - Occupies 2 bytes, can be used for instruction alignment or timing adjustments."
-        },
-        "NOP4": {
-            "length": 1,
-            "format": [
-                "OPC"
-            ],
-            "modify_flags": [],
-            "needs_coprocessor": null,
-            "mode": "L0",
-            "can_use_with_prefixes": [],
-            "translate_to": [
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                },
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                },
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                },
-                {
-                    "instruction": "NOP",
-                    "operands": []
-                }
-            ],
-            "length_after": 4,
-            "description": "No Operation - Occupies 4 bytes, can be used for instruction alignment or timing adjustments."
-        },
         "SAL": {
             "length": 3,
             "format": [
