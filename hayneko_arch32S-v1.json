@@ -3203,6 +3203,12 @@
             "bit_position": 24,
             "mask": "0x01000000",
             "description": "Virtual mode Interrupt Enable Flag - Indicates whether virtual mode interrupts are enabled."
+        },
+
+        "PROT": {
+            "bit_position": 30,
+            "mask": "0x40000000",
+            "description": "Protected mode Flag - If flag enabled, the processor will abort when operating a invalid memory address or other operations."
         }
 
     },
